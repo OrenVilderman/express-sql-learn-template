@@ -1,0 +1,26 @@
+{
+  "name": "express-sql-learn-template",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OrenVilderman/express-sql-learn-template.git"
+  },
+  "keywords": [
+    "express",
+    "sql",
+    "start",
+    "learn",
+    "typescript"
+  ],
+  "author": "Oren Vilderman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OrenVilderman/express-sql-learn-template/issues"
+  },
+  "homepage": "https://github.com/OrenVilderman/express-sql-learn-template#readme"
+}
