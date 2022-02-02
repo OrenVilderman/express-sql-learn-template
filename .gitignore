@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Cashing DB
+/tmp
+
+# Project info files for local usages
+*.pdf
