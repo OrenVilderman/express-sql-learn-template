@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec npx ts-node app.ts",
-    "start-backup": "ts-node app.ts"
+    "start-backup": "ts-node app.ts",
+    "fix-lint": "npx eslint --ext .ts . --fix"
   },
   "repository": {
     "type": "git",
@@ -26,8 +27,12 @@
   },
   "homepage": "https://github.com/OrenVilderman/express-sql-learn-template#readme",
   "dependencies": {
+    "cron": "^1.8.2",
     "csv-parse": "^5.0.4",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "node-fetch": "^2.6.7",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
     "uuid": "^8.3.2",
@@ -35,9 +40,16 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/node-fetch": "^3.0.3",
     "@types/sqlite3": "^3.1.8",
     "@types/uuid": "^8.3.4",
     "@types/ws": "^8.2.2",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.15",
     "ts-node": "^10.4.0"
   }
 }
