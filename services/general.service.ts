@@ -22,6 +22,7 @@ export const ConsoleColors = {
   Information: 'color: #FFD801',
   AssertionStatusLog: 'color: #893BFF',
   FetchStatus: 'color: #893BFF',
+  IncomingRequest: 'color: #3BB9FF',
   SqlQuery: 'color: #00FFFF',
   Error: 'color: #FF0000',
   Success: 'color: #00FF00',
