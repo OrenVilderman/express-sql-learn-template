@@ -105,6 +105,11 @@ dist
 
 # Cashing DB
 /tmp
+*.db
+*.csv
 
 # Project info files for local usages
 *.pdf
+
+# Public UI
+/public
