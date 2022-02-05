@@ -7,16 +7,17 @@ export const addPeople = async (request: Request, response: Response) => {
 
   await queryAPIService.initiateSQLite();
 
-  await queryAPIService.dropTableByName('people');
-
-  await queryAPIService.createDBTableFromData([{
+  await queryAPIService.addOrCreateDBTableFromData([{
     id: 1,
     joinDate: new Date('2020/01/15'),
     name: 'oren',
     uuid: uuid(),
+    gender: 'X',
+    picture: 'http://no',
+    email: 'a@B.com',
   }]);
 
-  const peopleTable = await queryAPIService.getAllFromTable('people');
+  const peopleTable = await queryAPIService.selectFromTable('people');
 
   response.status(200).send(peopleTable);
 };

@@ -29,5 +29,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'guard-for-in': 'off',
     'no-restricted-syntax': 'off',
+    'prefer-destructuring': 'off'
   },
 };
