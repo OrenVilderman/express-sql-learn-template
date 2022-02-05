@@ -1,10 +1,10 @@
 import express, { Router, Request, Response } from 'express';
-import { addUser } from '../controllers/user-api';
+import { createNewUser } from '../controllers/user-api';
 import { ConsoleColors } from '../services/general.service';
 
 const userRouter: Router = express.Router();
 
-userRouter.get('/add', addUser);
+userRouter.get('/create', createNewUser);
 
 userRouter.all('*', (request: Request, response: Response) => {
   console.log(`%cUser page not found for requset: ${request.url}`, ConsoleColors.Information);

@@ -1,11 +1,15 @@
 import express, { Application, Request, Response } from 'express';
 import 'dotenv/config';
-import GeneralService, { ConsoleColors } from './services/general.service';
+import { ConsoleColors } from './services/general.service';
 import indexRouter from './routes';
+import { GeneralService, QueryAPIService } from './services';
 
 const generalService = new GeneralService();
-const job = generalService.initiateNewPeopleCronJob(2);
+const job = generalService.initiateNewPeopleCronJob(1);
 job.start();
+
+const queryAPIService = new QueryAPIService();
+queryAPIService.createDefultDBTablesIfMissing();
 
 const PORT: number = Number(process.env.PORT) || 5000;
 const app: Application = express();

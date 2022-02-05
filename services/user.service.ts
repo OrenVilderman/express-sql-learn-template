@@ -1,2 +1,2 @@
-export default class UserAPIService {
+export class UserAPIService {
 }

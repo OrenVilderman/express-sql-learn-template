@@ -7,29 +7,28 @@ export interface PeopleData {
   id?: number,
   name: string,
   uuid: string,
-  joinDate: Date,
+  dob: Date,
   email: string,
   gender: string,
   picture: string,
+  role?: string
 }
 
 export interface WinnerData {
-  id?: number,
-  name: string,
+  id: number,
   luckyNumber: number,
-  uuid: string,
   joinDate: Date,
 }
 
 export interface UserData {
-  id?: number,
-  name: string,
+  id: number,
   luck: boolean,
-  uuid: string,
   joinDate: Date,
 }
 
-export default class QueryAPIService {
+type defaultTables = 'people' | 'winners' | 'users';
+
+export class QueryAPIService {
   private db: any;
 
   constructor() {
@@ -100,13 +99,13 @@ export default class QueryAPIService {
       if (!await this.isAsyncTableExist(tableName)) {
         switch (tableName) {
           case 'people':
-            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, uuid TEXT, join_date DATE, email TEXT, gender TEXT, picture TEXT)`);
+            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, uuid TEXT, dob DATE, email TEXT, gender TEXT, picture TEXT, role TEXT)`);
             break;
           case 'winners':
-            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, luckyNumber INTEGER, uuid TEXT, join_date DATE)`);
+            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, lucky_number INTEGER, join_date DATE)`);
             break;
           case 'users':
-            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, luck BOOLEAN, uuid TEXT, join_date DATE)`);
+            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, luck BOOLEAN, join_date DATE)`);
             break;
           default:
             throw new Error('NotImplementedException');
@@ -117,13 +116,13 @@ export default class QueryAPIService {
         const person: any = data[i];
         switch (tableName) {
           case 'people':
-            await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (null, '${person.name}','${person.uuid}','${person.joinDate}','${person.email}','${person.gender}','${person.picture}')`);
+            await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (null, '${person.name}', '${person.uuid}', '${person.dob}', '${person.email}', '${person.gender}', '${person.picture}', null)`);
             break;
           case 'winners':
-            await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (null, '${person.name}',${person.luckyNumber} ,'${person.uuid}','${person.joinDate}')`);
+            await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (${person.id}, ${person.luckyNumber}, '${person.joinDate}')`);
             break;
           case 'users':
-            await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (null, '${person.name}',${person.luck},'${person.uuid}','${person.joinDate}')`);
+            await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (${person.id}, ${person.luck}, '${person.joinDate}')`);
             break;
           default:
             throw new Error('NotImplementedException');
@@ -152,13 +151,13 @@ export default class QueryAPIService {
           const person: any = data[i];
           switch (tableName) {
             case 'people':
-              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id ? person.id : null}, '${person.name}','${person.uuid}','${person.joinDate}','${person.email}','${person.gender}','${person.picture}')`);
+              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id ? person.id : null}, '${person.name}', '${person.uuid}', '${person.dob}', '${person.email}', '${person.gender}', '${person.picture}', '${person.role}')`);
               break;
             case 'winners':
-              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id ? person.id : null}, '${person.name}',${person.luckyNumber} ,'${person.uuid}','${person.joinDate}')`);
+              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luckyNumber}, '${person.joinDate}')`);
               break;
             case 'users':
-              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id ? person.id : null}, '${person.name}',${person.luck},'${person.uuid}','${person.joinDate}')`);
+              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luck}, '${person.joinDate}')`);
               break;
             default:
               throw new Error('NotImplementedException');
@@ -171,6 +170,35 @@ export default class QueryAPIService {
     }
   };
 
+  /**
+ * This method is used to validate or create the defult tables for this server
+ * @param data
+ */
+  createDefultDBTablesIfMissing = async () => {
+    console.log('%cDB initiation started', ConsoleColors.SystemInformation);
+    await this.initiateSQLite();
+    const tableNameArr: defaultTables[] = ['people', 'users', 'winners'];
+    for (let i = 0; i < tableNameArr.length; i++) {
+      const tableName = tableNameArr[i];
+      if (!await this.isAsyncTableExist(tableName)) {
+        switch (tableName) {
+          case 'people':
+            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, uuid TEXT, dob DATE, email TEXT, gender TEXT, picture TEXT, role TEXT)`);
+            break;
+          case 'winners':
+            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, lucky_number INTEGER, join_date DATE)`);
+            break;
+          case 'users':
+            await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, luck BOOLEAN, join_date DATE)`);
+            break;
+          default:
+            throw new Error('NotImplementedException');
+          // break;
+        }
+      }
+    }
+  };
+
   selectFromTable = async (tableName: string): Promise<PeopleData[] | WinnerData[] | UserData[]> => {
     if (this.db != '') {
       return await sqLiteGet(this.db, `SELECT * FROM ${tableName}`);
@@ -178,7 +206,7 @@ export default class QueryAPIService {
     throw new Error('DB not initiated');
   };
 
-  selectByQuery = async (query: string): Promise<PeopleData[] | WinnerData[] | UserData[]> => {
+  selectByQuery = async (query: string): Promise<any[]> => {
     if (this.db != '') {
       return await sqLiteGet(this.db, query);
     }

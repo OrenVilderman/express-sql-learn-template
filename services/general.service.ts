@@ -24,7 +24,7 @@ export const ConsoleColors = {
   AssertionStatusLog: 'color: #893BFF',
   FetchStatus: 'color: #893BFF',
   IncomingRequest: 'color: #3BB9FF',
-  SqlQuery: 'color: #00FFFF',
+  SqlQuery: 'color: #6AFB92',
   Error: 'color: #FF0000',
   Success: 'color: #00FF00',
 };
@@ -49,7 +49,7 @@ export interface FetchRequestInit {
   size?: number;
 }
 
-export default class GeneralService {
+export class GeneralService {
   /**
    * This method is used for all the fetch API calls
    * This method will add informative logs and will also provide the type of non parseable responses in many common cases
@@ -165,7 +165,7 @@ export default class GeneralService {
    */
   initiateNewPeopleCronJob(intervalTime: number) {
     console.log(`%cCron Job Execution Set To Start Every: ${intervalTime} Minutes`, ConsoleColors.SystemInformation);
-    return new CronJob(`1/15 */${intervalTime} * * * *`, (async (): Promise<void> => {
+    return new CronJob(`1 */${intervalTime} * * * *`, (async (): Promise<void> => {
       console.log('%cCron Job Execution Started', ConsoleColors.SystemInformation);
       let newPerson: any = await this.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
       newPerson = newPerson.Body.results[0];
@@ -175,16 +175,11 @@ export default class GeneralService {
         uuid: uuid(),
         name: newPerson.name.first,
         gender: newPerson.gender,
-        joinDate: new Date(newPerson.dob.date),
+        dob: newPerson.dob.date,
         picture: newPerson.picture.large,
         email: newPerson.email,
       }]);
     }));
-  }
-
-  initiateDBTables() {
-    console.log('%cDB initiation started', ConsoleColors.SystemInformation);
-    throw new Error('NotImplementedException');
   }
 
   initiateWebSocket = () => {

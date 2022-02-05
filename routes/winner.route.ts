@@ -1,10 +1,10 @@
 import express, { Router, Request, Response } from 'express';
-import { addWinner } from '../controllers/winner-api';
+import { createNewWinner } from '../controllers/winner-api';
 import { ConsoleColors } from '../services/general.service';
 
 const winnerRouter: Router = express.Router();
 
-winnerRouter.get('/add', addWinner);
+winnerRouter.get('/create', createNewWinner);
 
 winnerRouter.all('*', (request: Request, response: Response) => {
   console.log(`%cWinner page not found for requset: ${request.url}`, ConsoleColors.Information);
