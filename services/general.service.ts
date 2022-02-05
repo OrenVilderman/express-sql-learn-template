@@ -2,6 +2,7 @@ import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
 import WebSocket from 'ws';
+import { v4 as uuid } from 'uuid';
 import { QueryAPIService } from './index';
 
 const fetch = require('node-fetch');
@@ -49,6 +50,13 @@ export interface FetchRequestInit {
 }
 
 export default class GeneralService {
+  /**
+   * This method is used for all the fetch API calls
+   * This method will add informative logs and will also provide the type of non parseable responses in many common cases
+   * @param url
+   * @param requestInit
+   * @returns
+   */
   fetchStatus(url: string, requestInit?: FetchRequestInit): Promise<FetchStatusResponse> {
     const start = performance.now();
     let responseStr: string;
@@ -146,7 +154,7 @@ export default class GeneralService {
   };
 
   createTmpFileFromSqLiteTable = async (db: QueryAPIService, tableName: string, type: exportFormat) => {
-    const dbData = await db.getAllFromTable(tableName);
+    const dbData = await db.selectFromTable(tableName);
     fs.writeFileSync(path.resolve(process.cwd(), `./db/tmp/out.${type}`), this.convertJsonToCsv(dbData));
     return path.resolve(process.cwd(), `./db/tmp/out.${type}`);
   };
@@ -159,6 +167,18 @@ export default class GeneralService {
     console.log(`%cCron Job Execution Set To Start Every: ${intervalTime} Minutes`, ConsoleColors.SystemInformation);
     return new CronJob(`1/15 */${intervalTime} * * * *`, (async (): Promise<void> => {
       console.log('%cCron Job Execution Started', ConsoleColors.SystemInformation);
+      let newPerson: any = await this.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
+      newPerson = newPerson.Body.results[0];
+      const queryAPIService = new QueryAPIService();
+      await queryAPIService.initiateSQLite();
+      await queryAPIService.addOrCreateDBTableFromData([{
+        uuid: uuid(),
+        name: newPerson.name.first,
+        gender: newPerson.gender,
+        joinDate: new Date(newPerson.dob.date),
+        picture: newPerson.picture.large,
+        email: newPerson.email,
+      }]);
     }));
   }
 

@@ -1,11 +1,11 @@
 import express, { Application, Request, Response } from 'express';
 import 'dotenv/config';
-import { ConsoleColors/* , GeneralService */ } from './services/general.service';
+import GeneralService, { ConsoleColors } from './services/general.service';
 import indexRouter from './routes';
 
-// const generalService = new GeneralService();
-// const job = generalService.initiateNewPeopleCronJob(2);;
-// job.start();
+const generalService = new GeneralService();
+const job = generalService.initiateNewPeopleCronJob(2);
+job.start();
 
 const PORT: number = Number(process.env.PORT) || 5000;
 const app: Application = express();
