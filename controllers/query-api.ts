@@ -1,16 +1,12 @@
 import 'dotenv/config';
 import { Request, Response } from 'express';
 import { v4 as uuid } from 'uuid';
-import { GeneralService, QueryAPIService } from '../services/index';
+import { GeneralService, QueryAPIService, PeopleAPIService } from '../services/index';
 
 export const getAllPeople = async (request: Request, response: Response) => {
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
+  const peopleAPIService = new PeopleAPIService();
 
-  const people = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'people',
-  );
+  const people = await peopleAPIService.getFromDBTable('people');
 
   if (typeof people[0] === 'object' && people[0] != null) {
     response.status(200).send(people);
