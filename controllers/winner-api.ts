@@ -17,18 +17,12 @@ export const getAllWinners = async (request: Request, response: Response) => {
 
 export const getWinnerByID = async (request: Request, response: Response) => {
   const { id } = request.params;
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
+  const peopleAPIService = new PeopleAPIService();
 
-  const winner = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'winners '
-    + 'WHERE '
-    + `id=${Number(id)}`,
-  );
+  const winners = await peopleAPIService.getFromTableByID('winners', Number(id));
 
-  if (typeof winner[0] === 'object' && winner[0] != null) {
-    response.status(200).send(winner);
+  if (typeof winners[0] === 'object' && winners[0] != null) {
+    response.status(200).send(winners);
   } else {
     response.status(404).send(`Winner with uuid of: ${Number(id)}, not found!`);
   }

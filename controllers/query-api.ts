@@ -17,18 +17,12 @@ export const getAllPeople = async (request: Request, response: Response) => {
 
 export const getPersonByUUID = async (request: Request, response: Response) => {
   const { uuid } = request.params;
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
+  const peopleAPIService = new PeopleAPIService();
 
-  const person = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'people '
-    + 'WHERE '
-    + `uuid='${uuid}'`,
-  );
+  const people = await peopleAPIService.getFromTableByUUID('winners', uuid);
 
-  if (typeof person[0] === 'object' && person[0] != null) {
-    response.status(200).send(person);
+  if (typeof people[0] === 'object' && people[0] != null) {
+    response.status(200).send(people);
   } else {
     response.status(404).send(`Person with uuid of: ${uuid}, not found!`);
   }

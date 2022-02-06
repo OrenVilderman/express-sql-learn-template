@@ -17,18 +17,12 @@ export const getAllUsers = async (request: Request, response: Response) => {
 
 export const getUserByID = async (request: Request, response: Response) => {
   const { id } = request.params;
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
+  const peopleAPIService = new PeopleAPIService();
 
-  const user = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'users '
-    + 'WHERE '
-    + `id=${Number(id)}`,
-  );
+  const users = await peopleAPIService.getFromTableByID('users', Number(id));
 
-  if (typeof user[0] === 'object' && user[0] != null) {
-    response.status(200).send(user);
+  if (typeof users[0] === 'object' && users[0] != null) {
+    response.status(200).send(users);
   } else {
     response.status(404).send(`User with uuid of: ${Number(id)}, not found!`);
   }
