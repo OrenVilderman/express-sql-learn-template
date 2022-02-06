@@ -213,6 +213,13 @@ export class QueryAPIService {
     throw new Error('DB not initiated');
   };
 
+  deleteRowFromTableById = async (tableName: string, id: number): Promise<any[]> => {
+    if (this.db != '') {
+      return await sqLiteExec(this.db, `DELETE FROM ${tableName} WHERE id=${id}`);
+    }
+    throw new Error('DB not initiated');
+  };
+
   async isAsyncTableExist(tableName: string): Promise<boolean> {
     const tableArr = await this.selectByQuery(`SELECT name FROM sqlite_master WHERE type='table'AND name='${tableName}'`);
     if (tableArr.length > 0) {

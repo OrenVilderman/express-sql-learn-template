@@ -1,6 +1,42 @@
+import 'dotenv/config';
 import { Request, Response } from 'express';
 import { v4 as uuid } from 'uuid';
 import { GeneralService, QueryAPIService } from '../services/index';
+
+export const getAllWinners = async (request: Request, response: Response) => {
+  const queryAPIService = new QueryAPIService();
+  await queryAPIService.initiateSQLite();
+
+  const winners = await queryAPIService.selectByQuery(
+    'SELECT * FROM '
+    + 'winners',
+  );
+
+  if (typeof winners[0] === 'object' && winners[0] != null) {
+    response.status(200).send(winners);
+  } else {
+    response.status(404).send('Winners table is empty!');
+  }
+};
+
+export const getWinnerByID = async (request: Request, response: Response) => {
+  const { id } = request.params;
+  const queryAPIService = new QueryAPIService();
+  await queryAPIService.initiateSQLite();
+
+  const winner = await queryAPIService.selectByQuery(
+    'SELECT * FROM '
+    + 'winners '
+    + 'WHERE '
+    + `id=${Number(id)}`,
+  );
+
+  if (typeof winner[0] === 'object' && winner[0] != null) {
+    response.status(200).send(winner);
+  } else {
+    response.status(404).send(`Winner with uuid of: ${Number(id)}, not found!`);
+  }
+};
 
 export const createNewWinner = async (request: Request, response: Response) => {
   const queryAPIService = new QueryAPIService();
@@ -20,6 +56,7 @@ export const createNewWinner = async (request: Request, response: Response) => {
     let newPerson: any = await generalService.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
     newPerson = newPerson.Body.results[0];
 
+    const queryAPIService = new QueryAPIService();
     await queryAPIService.initiateSQLite();
     await queryAPIService.addOrCreateDBTableFromData([{
       uuid: uuid(),
@@ -59,4 +96,37 @@ export const createNewWinner = async (request: Request, response: Response) => {
   const winnersTable = await queryAPIService.selectFromTable('winners');
 
   response.status(201).send(winnersTable);
+};
+
+export const updateLuckyNumber = async (request: Request, response: Response) => {
+  const { id } = request.params;
+  const { luckyNumber } = request.body;
+  const queryAPIService = new QueryAPIService();
+  await queryAPIService.initiateSQLite();
+
+  const winner = await queryAPIService.selectByQuery(
+    'SELECT * FROM '
+    + 'winners '
+    + 'WHERE '
+    + `id=${Number(id)}`,
+  );
+
+  if (typeof winner[0] === 'object' && winner[0] != null) {
+    await queryAPIService.insertOrReplaceRow([{
+      id: winner[0].id,
+      luckyNumber: Math.floor(luckyNumber) || winner[0].lucky_number,
+      joinDate: winner[0].join_date,
+    }]);
+
+    const updatedWinner = await queryAPIService.selectByQuery(
+      'SELECT * FROM '
+      + 'winners '
+      + 'WHERE '
+      + `id=${Number(id)}`,
+    );
+
+    response.status(200).send(updatedWinner);
+  } else {
+    response.status(404).send(`Winner with id of: ${Number(id)}, not found!`);
+  }
 };

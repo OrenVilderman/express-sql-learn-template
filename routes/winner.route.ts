@@ -1,10 +1,18 @@
 import express, { Router, Request, Response } from 'express';
-import { createNewWinner } from '../controllers/winner-api';
+import {
+  createNewWinner, getAllWinners, getWinnerByID, updateLuckyNumber,
+} from '../controllers/winner-api';
 import { ConsoleColors } from '../services/general.service';
 
 const winnerRouter: Router = express.Router();
 
-winnerRouter.get('/create', createNewWinner);
+winnerRouter.get('/all', getAllWinners);
+
+winnerRouter.get('/:id', getWinnerByID);
+
+winnerRouter.post('/create', createNewWinner);
+
+winnerRouter.patch('/:id', updateLuckyNumber);
 
 winnerRouter.all('*', (request: Request, response: Response) => {
   console.log(`%cWinner page not found for requset: ${request.url}`, ConsoleColors.Information);
