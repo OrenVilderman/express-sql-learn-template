@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import { Request, Response } from 'express';
-import { v4 as uuid } from 'uuid';
-import { GeneralService, QueryAPIService, PeopleAPIService } from '../services/index';
+import { QueryAPIService, PeopleAPIService } from '../services/index';
 
 export const getAllPeople = async (request: Request, response: Response) => {
   const peopleAPIService = new PeopleAPIService();
@@ -19,7 +18,7 @@ export const getPersonByUUID = async (request: Request, response: Response) => {
   const { uuid } = request.params;
   const peopleAPIService = new PeopleAPIService();
 
-  const people = await peopleAPIService.getFromTableByUUID('winners', uuid);
+  const people = await peopleAPIService.getFromPeopleByUUID(uuid);
 
   if (typeof people[0] === 'object' && people[0] != null) {
     response.status(200).send(people);
@@ -30,40 +29,27 @@ export const getPersonByUUID = async (request: Request, response: Response) => {
 
 export const getPersonByName = async (request: Request, response: Response) => {
   const name = request.query.name;
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
-  const person = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'people '
-    + 'WHERE '
-    + `name='${name}'`,
-  );
-  if (typeof person[0] === 'object' && person[0] != null) {
-    response.status(200).send(person);
+  const peopleAPIService = new PeopleAPIService();
+
+  const people = await peopleAPIService.getFromPeopleByName(String(name));
+
+  if (typeof people[0] === 'object' && people[0] != null) {
+    response.status(200).send(people);
   } else {
     response.status(404).send(`Person with name of: ${name}, not found!`);
   }
 };
 
 export const createNewPerson = async (request: Request, response: Response) => {
-  const generalService = new GeneralService();
-  let newPerson: any = await generalService.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
-  newPerson = newPerson.Body.results[0];
+  const peopleAPIService = new PeopleAPIService();
 
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
-  await queryAPIService.addOrCreateDBTableFromData([{
-    uuid: uuid(),
-    name: newPerson.name.first,
-    gender: newPerson.gender,
-    dob: newPerson.dob.date,
-    picture: newPerson.picture.large,
-    email: newPerson.email,
-  }]);
+  const people = await peopleAPIService.createNewPerson();
 
-  const peopleTable = await queryAPIService.selectFromTable('people');
-
-  response.status(201).send(peopleTable);
+  if (typeof people[0] === 'object' && people[0] != null) {
+    response.status(201).send(people);
+  } else {
+    response.status(500).send('Create new person Error!');
+  }
 };
 
 export const updatePerson = async (request: Request, response: Response) => {

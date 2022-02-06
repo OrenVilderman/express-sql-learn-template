@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import { Request, Response } from 'express';
-import { v4 as uuid } from 'uuid';
-import { GeneralService, QueryAPIService, PeopleAPIService } from '../services/index';
+import { QueryAPIService, PeopleAPIService, UserAPIService } from '../services/index';
 
 export const getAllUsers = async (request: Request, response: Response) => {
   const peopleAPIService = new PeopleAPIService();
@@ -29,63 +28,15 @@ export const getUserByID = async (request: Request, response: Response) => {
 };
 
 export const createNewUser = async (request: Request, response: Response) => {
-  const queryAPIService = new QueryAPIService();
+  const userAPIService = new UserAPIService();
 
-  await queryAPIService.initiateSQLite();
+  const users = await userAPIService.createNewUser();
 
-  let personWithoutRole = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'people '
-    + 'WHERE '
-    + 'role '
-    + 'IS NULL',
-  );
-
-  if (personWithoutRole[0] == undefined) {
-    const generalService = new GeneralService();
-    let newPerson: any = await generalService.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
-    newPerson = newPerson.Body.results[0];
-
-    const queryAPIService = new QueryAPIService();
-    await queryAPIService.initiateSQLite();
-    await queryAPIService.addOrCreateDBTableFromData([{
-      uuid: uuid(),
-      name: newPerson.name.first,
-      gender: newPerson.gender,
-      dob: newPerson.dob.date,
-      picture: newPerson.picture.large,
-      email: newPerson.email,
-    }]);
-
-    personWithoutRole = await queryAPIService.selectByQuery(
-      'SELECT * FROM '
-      + 'people '
-      + 'WHERE '
-      + 'role '
-      + 'IS NULL',
-    );
+  if (typeof users[0] === 'object' && users[0] != null) {
+    response.status(201).send(users);
+  } else {
+    response.status(500).send('Create new user Error!');
   }
-
-  await queryAPIService.addOrCreateDBTableFromData([{
-    id: personWithoutRole[0].id,
-    joinDate: new Date(Date.now()).toISOString() as any,
-    luck: false,
-  }]);
-
-  await queryAPIService.insertOrReplaceRow([{
-    id: personWithoutRole[0].id,
-    uuid: personWithoutRole[0].uuid,
-    name: personWithoutRole[0].name,
-    gender: personWithoutRole[0].gender,
-    dob: personWithoutRole[0].dob,
-    picture: personWithoutRole[0].picture,
-    email: personWithoutRole[0].email,
-    role: 'user',
-  }]);
-
-  const usersTable = await queryAPIService.selectFromTable('users');
-
-  response.status(201).send(usersTable);
 };
 
 export const updateLuck = async (request: Request, response: Response) => {
