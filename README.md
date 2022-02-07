@@ -5,10 +5,10 @@
 ### # Create compile and lint tests by uning GitHub Actions 
 ### # Improve the public UI+UX
 ### # Push to GitHub the public interface
-### # Add Patch API calls from the public UI
-### # Add endpoint documentation if README to be used in Postman
+### # Add PATCH API calls from the public UI
+### # Add endpoint documentation in README to be used in Postman
 ### # Publish the file export methods that support CSV,JSON and TXT export format for DB tables
-### # Think if to allow SQL Injections via UI
+### # Think if to allow SQL Injections via the UI
 ### # Publish site to domain
 ### # Decide version 1.0.0
 ### # Add UI libary for components 
