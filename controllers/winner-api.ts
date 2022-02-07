@@ -47,28 +47,22 @@ export const updateLuckyNumber = async (request: Request, response: Response) =>
   const queryAPIService = new QueryAPIService();
   await queryAPIService.initiateSQLite();
 
-  const winner = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'winners '
-    + 'WHERE '
-    + `id=${Number(id)}`,
-  );
-
-  if (typeof winner[0] === 'object' && winner[0] != null) {
-    await queryAPIService.insertOrReplaceRow([{
-      id: winner[0].id,
-      luckyNumber: Math.floor(luckyNumber) || winner[0].lucky_number,
-      joinDate: winner[0].join_date,
-    }]);
-
-    const updatedWinner = await queryAPIService.selectByQuery(
+  let winner = [];
+  if (!Number.isNaN(Number(luckyNumber))) {
+    winner = await queryAPIService.selectByQuery(
       'SELECT * FROM '
       + 'winners '
       + 'WHERE '
       + `id=${Number(id)}`,
     );
+  }
 
+  if (typeof winner[0] === 'object' && winner[0] != null) {
+    const winnerAPIService = new WinnerAPIService();
+    const updatedWinner = await winnerAPIService.updateLuckyNumber(winner[0], luckyNumber);
     response.status(200).send(updatedWinner);
+  } else if (Number.isNaN(Number(luckyNumber))) {
+    response.status(400).send(`Wrong value for lucky number: ${luckyNumber}`);
   } else {
     response.status(404).send(`Winner with id of: ${Number(id)}, not found!`);
   }

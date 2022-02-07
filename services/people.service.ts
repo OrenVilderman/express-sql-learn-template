@@ -106,4 +106,85 @@ export class PeopleAPIService {
     }
     return person;
   };
+
+  updatePerson = async (uuid: string, data = {} as any): Promise<any[]> => {
+    const {
+      name, gender, picture, email, role,
+    } = data;
+
+    const queryAPIService = new QueryAPIService();
+    await queryAPIService.initiateSQLite();
+
+    let people = [];
+    try {
+      people = await queryAPIService.selectByQuery(
+        'SELECT * FROM '
+        + 'people '
+        + 'WHERE '
+        + `uuid='${uuid}'`,
+      );
+
+      if (typeof people[0] === 'object' && people[0] != null) {
+        await queryAPIService.insertOrReplaceRow([{
+          id: people[0].id,
+          uuid: people[0].uuid,
+          name: name || people[0].name,
+          gender: gender || people[0].gender,
+          dob: people[0].dob,
+          picture: picture || people[0].picture,
+          email: email || people[0].email,
+          role: role || people[0].role,
+        }]);
+
+        people = await queryAPIService.selectByQuery(
+          'SELECT * FROM '
+          + 'people '
+          + 'WHERE '
+          + `uuid='${uuid}'`,
+        );
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(`%cPerson Creation Error: ${error.name}, ${error.message}`, ConsoleColors.Error);
+      }
+    }
+    return people;
+  };
+
+  removePerson = async (id: number): Promise<any[]> => {
+    const queryAPIService = new QueryAPIService();
+    await queryAPIService.initiateSQLite();
+
+    let people = [];
+    try {
+      const queryAPIService = new QueryAPIService();
+      await queryAPIService.initiateSQLite();
+
+      people = await queryAPIService.selectByQuery(
+        'SELECT * FROM '
+        + 'people '
+        + 'WHERE '
+        + `id=${id}`,
+      );
+
+      if (people[0].role == 'user') {
+        await queryAPIService.deleteRowFromTableById('users', id);
+      } else if (people[0].role == 'winner') {
+        await queryAPIService.deleteRowFromTableById('winners', id);
+      }
+      await queryAPIService.deleteRowFromTableById('people', id);
+
+      people = await queryAPIService.selectByQuery(
+        'SELECT * FROM '
+        + 'people '
+        + 'WHERE '
+        + `id=${id}`,
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(`%cPerson Creation Error: ${error.name}, ${error.message}`, ConsoleColors.Error);
+      }
+    }
+    return people;
+  };
 }

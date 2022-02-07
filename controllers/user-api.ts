@@ -45,28 +45,23 @@ export const updateLuck = async (request: Request, response: Response) => {
   const queryAPIService = new QueryAPIService();
   await queryAPIService.initiateSQLite();
 
-  const user = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'users '
-    + 'WHERE '
-    + `id=${Number(id)}`,
-  );
-
-  if (typeof user[0] === 'object' && user[0] != null) {
-    await queryAPIService.insertOrReplaceRow([{
-      id: user[0].id,
-      luck: Boolean(luck) || user[0].luck,
-      joinDate: user[0].join_date,
-    }]);
-
-    const updatedUser = await queryAPIService.selectByQuery(
+  let user = [];
+  if (typeof luck == 'boolean') {
+    user = await queryAPIService.selectByQuery(
       'SELECT * FROM '
-      + 'users '
+      + 'winners '
       + 'WHERE '
       + `id=${Number(id)}`,
     );
+  }
+
+  if (typeof user[0] === 'object' && user[0] != null) {
+    const userAPIService = new UserAPIService();
+    const updatedUser = await userAPIService.updateLuck(user[0], luck);
 
     response.status(200).send(updatedUser);
+  } else if (typeof luck != 'boolean') {
+    response.status(400).send(`Wrong value for luck: ${luck}`);
   } else {
     response.status(404).send(`User with id of: ${Number(id)}, not found!`);
   }

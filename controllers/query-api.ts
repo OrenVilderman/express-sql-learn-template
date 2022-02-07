@@ -54,39 +54,12 @@ export const createNewPerson = async (request: Request, response: Response) => {
 
 export const updatePerson = async (request: Request, response: Response) => {
   const { uuid } = request.params;
-  const {
-    name, gender, picture, email, role,
-  } = request.body;
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
+  const peopleAPIService = new PeopleAPIService();
 
-  const person = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'people '
-    + 'WHERE '
-    + `uuid='${uuid}'`,
-  );
+  const people = await peopleAPIService.updatePerson(uuid, request.body);
 
-  if (typeof person[0] === 'object' && person[0] != null) {
-    await queryAPIService.insertOrReplaceRow([{
-      id: person[0].id,
-      uuid: person[0].uuid,
-      name: name || person[0].name,
-      gender: gender || person[0].gender,
-      dob: person[0].dob,
-      picture: picture || person[0].picture,
-      email: email || person[0].email,
-      role: role || person[0].role,
-    }]);
-
-    const updatedPerson = await queryAPIService.selectByQuery(
-      'SELECT * FROM '
-      + 'people '
-      + 'WHERE '
-      + `uuid='${uuid}'`,
-    );
-
-    response.status(200).send(updatedPerson);
+  if (typeof people[0] === 'object' && people[0] != null) {
+    response.status(200).send(people);
   } else {
     response.status(404).send(`Person with uuid of: ${uuid}, not found!`);
   }
@@ -94,31 +67,11 @@ export const updatePerson = async (request: Request, response: Response) => {
 
 export const removePerson = async (request: Request, response: Response) => {
   const { id } = request.params;
-  const queryAPIService = new QueryAPIService();
-  await queryAPIService.initiateSQLite();
+  const peopleAPIService = new PeopleAPIService();
 
-  const personToDelete = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'people '
-    + 'WHERE '
-    + `id=${Number(id)}`,
-  );
+  const people = await peopleAPIService.removePerson(Number(id));
 
-  if (personToDelete[0].role == 'user') {
-    await queryAPIService.deleteRowFromTableById('users', Number(id));
-  } else if (personToDelete[0].role == 'winner') {
-    await queryAPIService.deleteRowFromTableById('winners', Number(id));
-  }
-  await queryAPIService.deleteRowFromTableById('people', Number(id));
-
-  const person = await queryAPIService.selectByQuery(
-    'SELECT * FROM '
-    + 'people '
-    + 'WHERE '
-    + `id=${Number(id)}`,
-  );
-
-  if (typeof person[0] === 'object' && person[0] != null) {
+  if (typeof people[0] === 'object' && people[0] != null) {
     response.status(500).send(`Person with id of: ${Number(id)}, was not removed!`);
   } else {
     response.status(200).send({ deleted: true });

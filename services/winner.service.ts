@@ -45,4 +45,22 @@ export class WinnerAPIService {
 
     return await peopleAPIService.getFromTableByID('winners', personWithoutRole[0].id);
   };
+
+  updateLuckyNumber = async (winner: any, luckyNumber: number): Promise<any[]> => {
+    const queryAPIService = new QueryAPIService();
+    await queryAPIService.initiateSQLite();
+
+    await queryAPIService.insertOrReplaceRow([{
+      id: winner.id,
+      luckyNumber: Math.floor(luckyNumber),
+      joinDate: winner.join_date,
+    }]);
+
+    return await queryAPIService.selectByQuery(
+      'SELECT * FROM '
+            + 'winners '
+            + 'WHERE '
+            + `id=${Number(winner.id)}`,
+    );
+  };
 }

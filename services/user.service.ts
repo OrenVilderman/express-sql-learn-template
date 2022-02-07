@@ -45,4 +45,22 @@ export class UserAPIService {
 
     return await peopleAPIService.getFromTableByID('users', personWithoutRole[0].id);
   };
+
+  updateLuck = async (user: any, luck: boolean): Promise<any[]> => {
+    const queryAPIService = new QueryAPIService();
+    await queryAPIService.initiateSQLite();
+
+    await queryAPIService.insertOrReplaceRow([{
+      id: user.id,
+      luck: Boolean(luck),
+      joinDate: user.join_date,
+    }]);
+
+    return await queryAPIService.selectByQuery(
+      'SELECT * FROM '
+            + 'users '
+            + 'WHERE '
+            + `id=${Number(user.id)}`,
+    );
+  };
 }
