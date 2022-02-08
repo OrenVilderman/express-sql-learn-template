@@ -42,21 +42,6 @@
             </div>
         </form>
 
-        <form id="PostAction" onsubmit="event.preventDefault();">
-            <h2>POST</h2>
-            <div>
-                <label for="type">Set the POST request Type</label>
-                <select name="type" id="type">
-                    <option value="People">People</option>
-                    <option value="Winners">Winners</option>
-                    <option value="Users">Users</option>
-                </select>
-            </div>
-            <div>
-                <input type='button' onclick="createByType();" value="Send POST"></input>
-            </div>
-        </form>
-
         <form id="PatchAction" onsubmit="event.preventDefault();">
             <h2>PATCH</h2>
             <div>
@@ -85,6 +70,21 @@
             </div>
             <div>
                 <input type='button' onclick="patchPersonData();" value="Send PATCH"></input>
+            </div>
+        </form>
+
+        <form id="PostAction" onsubmit="event.preventDefault();">
+            <h2>POST</h2>
+            <div>
+                <label for="type">Set the POST request Type</label>
+                <select name="type" id="type">
+                    <option value="People">People</option>
+                    <option value="Winners">Winners</option>
+                    <option value="Users">Users</option>
+                </select>
+            </div>
+            <div>
+                <input type='button' onclick="createByType();" value="Send POST"></input>
             </div>
         </form>
 
