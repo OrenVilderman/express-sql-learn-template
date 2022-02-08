@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="env:UUID" content="%DB_KEY%" />
+    <link rel="icon" type="image/x-icon" href="job_employment.ico" />
+    <title>TypeScript-Express</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <h1>TypeScript Express SQL Public UI</h1>
+    <section>
+        <form id="GetAction" onsubmit="event.preventDefault();">
+            <h2>GET</h2>
+            <h3>People</h3>
+            <div>
+                <label for="getPeopleBy">Send GET request: Empty or by UUID</label>
+                <input name="getPeopleBy" id="getPeopleBy" value="" placeholder="Enter UUID...">
+            </div>
+            <div>
+                <button onclick="getByUUIDOrIDOrAll('People');">Send GET</button>
+            </div>
+            <h3>Winners</h3>
+            <div>
+                <label for="getWinnersBy">Send GET request: Empty or by ID</label>
+                <input name="getWinnersBy" id="getWinnersBy" value="" placeholder="Enter ID...">
+            </div>
+            <div>
+                <button onclick="getByUUIDOrIDOrAll('Winners');">Send GET</button>
+            </div>
+            <h3>Users</h3>
+            <div>
+                <label for="getUsersBy">Send GET request: Empty or by ID</label>
+                <input name="getUsersBy" id="getUsersBy" value="" placeholder="Enter ID...">
+            </div>
+            <div>
+                <button onclick="getByUUIDOrIDOrAll('Users');">Send GET</button>
+            </div>
+        </form>
+
+        <form id="PostAction" onsubmit="event.preventDefault();">
+            <h2>POST</h2>
+            <div>
+                <label for="type">Set the POST request Type</label>
+                <select name="type" id="type">
+                    <option value="People">People</option>
+                    <option value="Winners">Winners</option>
+                    <option value="Users">Users</option>
+                </select>
+            </div>
+            <div>
+                <input type='button' onclick="createByType();" value="Send POST"></input>
+            </div>
+        </form>
+
+        <form id="PatchAction" onsubmit="event.preventDefault();">
+            <h2>PATCH</h2>
+            <div>
+                <label for="patchUUID">Set the UUID of the person to change</label>
+                <input name="patchUUID" id="patchUUID" value="" placeholder="Enter UUID...">
+            </div>
+            <div>
+                <label for="patchName">Set the PATCH request Name</label>
+                <input name="patchName" id="patchName" value="" placeholder="Enter Name...">
+            </div>
+            <div>
+                <label for="patchGender">Set the PATCH request Gender</label>
+                <input name="patchGender" id="patchGender" value="" placeholder="Enter Gender...">
+            </div>
+            <div>
+                <label for="patchPicture">Set the PATCH request Picture</label>
+                <input name="patchPicture" id="patchPicture" value="" placeholder="Enter Picture...">
+            </div>
+            <div>
+                <label for="patchEmail">Set the PATCH request Email</label>
+                <input name="patchEmail" id="patchEmail" value="" placeholder="Enter Email...">
+            </div>
+            <div>
+                <label for="patchRole">Set the PATCH request Role</label>
+                <input name="patchRole" id="patchRole" value="" placeholder="Enter Role...">
+            </div>
+            <div>
+                <input type='button' onclick="patchPersonData();" value="Send PATCH"></input>
+            </div>
+        </form>
+
+        <form id="DeleteAction" onsubmit="event.preventDefault();">
+            <h2>DELETE</h2>
+            <div>
+                <label for="deleteID">Set the DELETE request ID (or non to drop all the DB tables)</label>
+                <input name="deleteID" id="deleteID" value="" placeholder="Enter ID...">
+            </div>
+            <div>
+                <input type='button' onclick="deleteFromDB();" value="Send DELETE"></input>
+            </div>
+        </form>
+    </section>
+
+    <section>
+        <div id=results></div>
+        <div id=errors></div>
+    </section>
+
+    <script rel="scriptSheet" src="main.js" type="application/javaScript"></script>
+</body>
+
+</html>

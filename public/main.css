@@ -1,0 +1,44 @@
+h1 {
+  text-align: center;
+  font-size: 3em;
+}
+
+input, label {
+  display: block;
+  padding: 0.5em;
+}
+
+section {
+  display: inline-table;
+}
+
+form {
+  float: left;
+  width: 18em;
+  margin-left: 1.5em;
+  margin-top: 1ex;
+  padding: 0.5em;
+  border: 0.2em solid black;
+}
+
+button, input[type=button] {
+  width: 100%;
+  margin-top: 1ex;
+  padding: 0.5em;
+  border: 0.2em solid black;
+}
+
+ul {
+  list-style-type: none;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+li {
+  flex: 0 0 50%;
+  border: 1px solid grey;
+  padding: 1em;
+  display: flex;
+  align-items: flex-end;
+}

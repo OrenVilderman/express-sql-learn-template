@@ -73,6 +73,8 @@ export const removePerson = async (request: Request, response: Response) => {
 
   if (typeof people[0] === 'object' && people[0] != null) {
     response.status(500).send(`Person with id of: ${Number(id)}, was not removed!`);
+  } else if (people.includes('Error')) {
+    response.status(404).send(`Person with id of: ${id}, not found!`);
   } else {
     response.status(200).send({ deleted: true });
   }
@@ -82,8 +84,11 @@ export const dropDB = async (request: Request, response: Response) => {
   const { dbKey } = request.body;
   const queryAPIService = new QueryAPIService();
   await queryAPIService.initiateSQLite();
-  if (process.env.DB_KEY == dbKey) {
+  // TODO: This is just an example site - this should never exist in a real product
+  // The part: "|| dbKey == '%DB_KEY%'" is in here to allow everyone without keys to delete the DB
+  if (process.env.DB_KEY == dbKey || dbKey == '%DB_KEY%') {
     await queryAPIService.dropTableByName('');
+    return response.status(200).send({ deleted: true });
   }
-  response.status(200).send({ deleted: true });
+  return response.status(401).send('Unauthorized to perform this request');
 };

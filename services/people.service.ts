@@ -183,6 +183,7 @@ export class PeopleAPIService {
     } catch (error) {
       if (error instanceof Error) {
         console.error(`%cPerson Creation Error: ${error.name}, ${error.message}`, ConsoleColors.Error);
+        people = 'Person Creation Error' as any;
       }
     }
     return people;
