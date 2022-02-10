@@ -2,6 +2,12 @@
 
 ### UI interface is now avilable by from http://localhost:${PORT}/index.html
 
+## Unit tests cover status:
+### Controllers 44.11%
+### DB 62.5%
+### Routes 88.46%	
+### Services 24.81%
+
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge
 ### # Create compile and lint tests by uning GitHub Actions 

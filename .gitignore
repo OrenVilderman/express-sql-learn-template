@@ -112,4 +112,4 @@ dist
 *.pdf
 
 # Public UI
-#/public
+/public/status

@@ -21,6 +21,7 @@ app.use('/', (request: Request, response: Response, next) => {
   console.log(`%cReviced - ${request.method}:${request.url}`, ConsoleColors.IncomingRequest);
   next();
 });
+
 app.use('/api/V0.1', indexRouter);
 
 app.listen(PORT, () => {
