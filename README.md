@@ -1,6 +1,6 @@
 # express-sql-learn-template
 
-### UI interface is now avilable by from http://localhost:${PORT}/index.html
+### UI interface is now avilable in local server at: http://localhost:${PORT}/index.html
 
 ## Unit tests cover status:
 ### Controllers 44.11%
