@@ -10,7 +10,7 @@
 
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge
-### # Create compile and lint tests by uning GitHub Actions 
+### # Create compile and lint tests by using GitHub Actions 
 ### # Improve the public UI+UX
 ### ~~Push to GitHub the public interface~~ Done
 ### ~~Add PATCH API calls from the public UI~~ Done
