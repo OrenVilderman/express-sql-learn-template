@@ -1,6 +1,6 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
-import { ConsoleColors } from '../../services/general.service';
+import { ConsoleColors } from '../services/general.service';
 
 export async function openDB() {
   const db = await open({
