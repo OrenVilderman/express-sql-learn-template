@@ -31,7 +31,7 @@ const server = app.listen(PORT, () => {
 });
 
 app.all('*', (request: Request, response: Response) => {
-  console.log(`%cPage not found for requset: ${request.url}`, ConsoleColors.Error);
+  console.log(`%cPage not found for requset: ${request.url}, with method of: ${request.method}`, ConsoleColors.Error);
   response
     .status(404).send('<h1>Page not found</h1>');
 });

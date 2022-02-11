@@ -23,7 +23,7 @@ queryRouter.delete('/', dropDB);
 queryRouter.all('*', (request: Request, response: Response) => {
   console.log(`%cQuery page not found for requset: ${request.url}`, ConsoleColors.Information);
   response
-    .status(404).send(`<h1>Query page not found</h1><p>For this uri: ${request.url}</p>`);
+    .status(404).send(`<h1>Query page not found</h1><p>For this uri: ${request.url}, with method of: ${request.method}</p>`);
 });
 
 export default queryRouter;
