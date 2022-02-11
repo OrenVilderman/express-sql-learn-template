@@ -31,6 +31,9 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'prefer-destructuring': 'off',
     'camelcase': 'off',
-    'no-shadow': 'off'
+    'no-shadow': 'off',
+    'import/no-mutable-exports': 'off',
+    'consistent-return': 'off',
+    'no-promise-executor-return': 'off'
   },
 };

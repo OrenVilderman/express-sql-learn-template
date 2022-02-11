@@ -9,6 +9,8 @@ const fetch = require('node-fetch');
 const { CronJob } = require('cron');
 const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 
+export let webSocket: WebSocket;
+
 declare type exportFormat =
   | 'csv'
   | 'txt'
@@ -165,7 +167,7 @@ export class GeneralService {
    */
   initiateNewPeopleCronJob(intervalTime: number) {
     console.log(`%cCron Job Execution Set To Start Every: ${intervalTime} Minutes`, ConsoleColors.SystemInformation);
-    return new CronJob(`1 */${intervalTime} * * * *`, (async (): Promise<void> => {
+    return new CronJob(`1/7 */${intervalTime} * * * *`, (async (): Promise<void> => {
       console.log('%cCron Job Execution Started', ConsoleColors.SystemInformation);
       let newPerson: any = await this.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
       newPerson = newPerson.Body.results[0];
@@ -179,27 +181,52 @@ export class GeneralService {
         picture: newPerson.picture.large,
         email: newPerson.email,
       }]);
+
+      if (webSocket === undefined || webSocket.readyState == 3) {
+        let fetchResponse;
+        try {
+          fetchResponse = await this.fetchStatus(process.env.WEBSOCKET_URL || 'websocket-echo.com', { method: 'GET' });
+          const socketMessage = await fetchResponse.Body.Text;
+          if (socketMessage == 'Upgrade Required') {
+            webSocket = this.initiateWebSocket();
+            /**
+             * Free the event loop to change WebSocket readyState after initiation (2 seconds is safe spot for this API from testing)
+             */
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+          }
+          if (webSocket.readyState == 1) {
+            webSocket.send('New Person Added To DB By Cron Job Execution');
+          } else {
+            console.log('%cError in connection to websocket', ConsoleColors.Error);
+          }
+        } catch (error) {
+          console.log(`%cFetch Error GET: ${process.env.WEBSOCKET || 'websocket-echo.com'}`, ConsoleColors.Error);
+        }
+      } else {
+        webSocket.send('New Person Added To DB By Cron Job Execution');
+      }
     }));
   }
 
   initiateWebSocket = () => {
-    const ws = new WebSocket(`ws://${process.env.WEBSOCKET || 'websocket-echo.com'}`);
+    webSocket = new WebSocket(`ws://${process.env.WEBSOCKET || 'websocket-echo.com'}`);
 
-    ws.on('open', () => {
+    webSocket.on('open', () => {
       console.log('%cConnected To WebSocket', ConsoleColors.Information);
     });
 
-    ws.on('close', () => {
+    webSocket.on('close', () => {
       console.log('%cDisconnected From WebSocket', ConsoleColors.Information);
     });
 
+    // TODO: In cases where another websocket is used - please change this function to do what is needed
     /**
      * Logger for the responses when using the default websocket: websocket-echo.com
      */
-    ws.on('message', (data: string) => {
+    webSocket.on('message', (data: string) => {
       console.log(`%cThis message is eco from websocket-echo.com: ${data}`, ConsoleColors.Information);
     });
 
-    return ws;
+    return webSocket;
   };
 }

@@ -4,9 +4,9 @@
 
 ## Unit tests cover status:
 ### Controllers 44.11%
-### DB 62.5%
+### DB 84.37%
 ### Routes 88.46%	
-### Services 24.81%
+### Services 38.78%
 
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge
