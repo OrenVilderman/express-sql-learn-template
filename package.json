@@ -5,6 +5,7 @@
   "main": "app.ts",
   "scripts": {
     "test": "jest",
+    "test_crush": "jest __tests__/db.crush.test.ts",
     "start": "nodemon --exec npx ts-node app.ts",
     "start-backup": "ts-node app.ts",
     "fix-lint": "npx eslint --ext .ts . --fix"
