@@ -7,7 +7,7 @@
 ### DB* 100%
 ### Routes 100%   
 ### Services 70%
-##### * - DB include crush test that the server can't recover from, these tests are safe to run but the test file "de.crush.test.ts" better not modified <br />
+##### * - DB include crush test that the server can't recover from, these tests are safe to run but the test file "db.crush.test.ts" better not modified <br />
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge
 ### # Create compile and lint tests by using GitHub Actions 
