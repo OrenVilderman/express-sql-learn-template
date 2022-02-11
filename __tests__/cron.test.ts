@@ -33,6 +33,7 @@ describe('Cron Tests Suite', () => {
         }
       }, setIntervalEvery);
     });
+    job.stop();
     expect(cronJobExecutionTestResult).to.equal('Confirm Interval Trigger');
   });
 });
