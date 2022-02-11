@@ -1,5 +1,27 @@
 # express-sql-learn-template
 
+## Installation
+Install by running 
+``` 
+npm install
+```
+
+## Start Server with debug* (Optional to use F5 before running the script)
+Start with nodemon by running:
+``` 
+npm start
+```
+Start directly with ts-node by running:
+``` 
+npm run start-backup
+```
+
+## Start Server with debug* (Optional to use F5 before running the script)
+Start the tests by running:
+``` 
+npm test
+```
+
 ### UI interface is now available in local server at: http://localhost:${PORT}/index.html
 
 ## Unit tests cover status:
