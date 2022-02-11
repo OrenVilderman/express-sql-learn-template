@@ -16,7 +16,7 @@ Start directly with ts-node by running:
 npm run start-backup
 ```
 
-## Start Server with debug* (Optional to use F5 before running the script)
+## Start the tests that will print the full Jest HTML coverage report
 Start the tests by running:
 ``` 
 npm test
