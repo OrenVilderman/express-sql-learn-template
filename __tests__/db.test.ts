@@ -7,11 +7,11 @@ import { QueryAPIService } from '../services/index';
 
 const app = express();
 app.use(express.json());
-app.use(express.static(`${process.cwd()}/public`));
 app.use('/api/V0.1', indexRouter);
 
 describe('DB Tests Suite', () => {
   let winnerID: number;
+  let userID: number;
   it('Validate Creaet And Remove Winner', async () => {
     const apiCreateWinner = await request(app).post('/api/V0.1/winner/create');
     winnerID = Number(apiCreateWinner.body[0].id);
@@ -26,6 +26,19 @@ describe('DB Tests Suite', () => {
     expect(apiDeletePersonNegative.status).to.equal(404);
     expect(apiDeletePersonNegative.text).to.equal(`Person with id of: ${winnerID}, not found!`);
     expect(apiDeletePersonNegative.type).to.equal('text/html');
+  });
+
+  it('Validate Creat Two Users And Remove One', async () => {
+    await request(app).post('/api/V0.1/user/create');
+    const apiUsersBefore = await request(app).get('/api/V0.1/user/all');
+    userID = Number(apiUsersBefore.body[0].id);
+    await request(app).post('/api/V0.1/user/create');
+    const apiUsersAfterCreate = await request(app).get('/api/V0.1/user/all');
+    await request(app).delete(`/api/V0.1/query/${userID}`);
+    const apiUsersAfterRemove = await request(app).get('/api/V0.1/user/all');
+    expect(apiUsersBefore.body.length).to.be.above(0);
+    expect(apiUsersAfterCreate.body.length).to.equal(apiUsersBefore.body.length + 1);
+    expect(apiUsersAfterRemove.body.length).to.equal(apiUsersBefore.body.length);
   });
 
   it('Validate SQLite Execution Errors', async () => {

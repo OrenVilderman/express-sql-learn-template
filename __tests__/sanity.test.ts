@@ -18,42 +18,42 @@ describe('Sanity Tests Suite', () => {
   });
 
   it('All People', async () => {
-    const apiPeopleAll = await request(app).get('/api/V0.1/query/all');
-    expect(apiPeopleAll.status).to.equal(200);
-    expect(apiPeopleAll.type).to.equal('application/json');
-    expect(apiPeopleAll.body[0]).to.have.property('id').a('number');
-    expect(apiPeopleAll.body[0]).to.have.property('dob').a('string');
-    expect(apiPeopleAll.body[0]).to.have.property('email').a('string');
-    expect(apiPeopleAll.body[0]).to.have.property('gender').a('string');
-    expect(apiPeopleAll.body[0]).to.have.property('name').a('string');
-    expect(apiPeopleAll.body[0]).to.have.property('picture').a('string');
-    expect(apiPeopleAll.body[0]).to.have.property('role').a('string');
-    expect(apiPeopleAll.body[0]).to.have.property('uuid').a('string');
+    const apiAllPeopleAll = await request(app).get('/api/V0.1/query/all');
+    expect(apiAllPeopleAll.status).to.equal(200);
+    expect(apiAllPeopleAll.type).to.equal('application/json');
+    expect(apiAllPeopleAll.body[0]).to.have.property('id').a('number');
+    expect(apiAllPeopleAll.body[0]).to.have.property('dob').a('string');
+    expect(apiAllPeopleAll.body[0]).to.have.property('email').a('string');
+    expect(apiAllPeopleAll.body[0]).to.have.property('gender').a('string');
+    expect(apiAllPeopleAll.body[0]).to.have.property('name').a('string');
+    expect(apiAllPeopleAll.body[0]).to.have.property('picture').a('string');
+    expect(apiAllPeopleAll.body[0]).to.have.property('role').a('string');
+    expect(apiAllPeopleAll.body[0]).to.have.property('uuid').a('string');
   });
 
   it('All Winners', async () => {
-    const apiWinnersAll = await request(app).get('/api/V0.1/winner/all');
-    expect(apiWinnersAll.status).to.equal(200);
-    expect(apiWinnersAll.type).to.equal('application/json');
-    expect(apiWinnersAll.body[0]).to.have.property('id').a('number');
-    expect(apiWinnersAll.body[0]).to.have.property('lucky_number').a('number');
-    expect(apiWinnersAll.body[0]).to.have.property('join_date').a('string');
+    const apiAllWinnersAll = await request(app).get('/api/V0.1/winner/all');
+    expect(apiAllWinnersAll.status).to.equal(200);
+    expect(apiAllWinnersAll.type).to.equal('application/json');
+    expect(apiAllWinnersAll.body[0]).to.have.property('id').a('number');
+    expect(apiAllWinnersAll.body[0]).to.have.property('lucky_number').a('number');
+    expect(apiAllWinnersAll.body[0]).to.have.property('join_date').a('string');
   });
 
   it('All Users', async () => {
-    const apiUsersAll = await request(app).get('/api/V0.1/user/all');
-    expect(apiUsersAll.status).to.equal(200);
-    expect(apiUsersAll.type).to.equal('application/json');
-    expect(apiUsersAll.body[0]).to.have.property('id').a('number');
-    expect(apiUsersAll.body[0]).to.have.property('luck').a('number');
-    expect(apiUsersAll.body[0]).to.have.property('join_date').a('string');
+    const apiAllUsersAll = await request(app).get('/api/V0.1/user/all');
+    expect(apiAllUsersAll.status).to.equal(200);
+    expect(apiAllUsersAll.type).to.equal('application/json');
+    expect(apiAllUsersAll.body[0]).to.have.property('id').a('number');
+    expect(apiAllUsersAll.body[0]).to.have.property('luck').a('number');
+    expect(apiAllUsersAll.body[0]).to.have.property('join_date').a('string');
   });
 
   it('Page Not Found', async () => {
     const pageNotFound = await request(app).get('/api/V0.1/error');
     expect(pageNotFound.status).to.equal(404);
     expect(pageNotFound.type).to.equal('text/html');
-    expect(pageNotFound.text).to.include('<h1>Page not found</h1><p>For this uri: /error</p>');
+    expect(pageNotFound.text).to.include('<h1>Page not found</h1><p>For this uri: /error, with method of: GET</p>');
   });
 
   it('Person Not Found', async () => {

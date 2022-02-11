@@ -7,7 +7,6 @@ import { QueryAPIService } from '../services/index';
 
 const app = express();
 app.use(express.json());
-app.use(express.static(`${process.cwd()}/public`));
 app.use('/api/V0.1', indexRouter);
 
 describe('DB Crush Tests Suite', () => {

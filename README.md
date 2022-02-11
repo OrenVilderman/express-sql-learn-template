@@ -3,10 +3,10 @@
 ### UI interface is now available in local server at: http://localhost:${PORT}/index.html
 
 ## Unit tests cover status:
-### Controllers 56.47%
+### Controllers 60%
 ### DB* 100%
-### Routes 88.46%   
-### Services 57.8%
+### Routes 100%   
+### Services 70%
 ##### * - DB include crush test that the server can't recover from, these tests are safe to run but the test file "de.crush.test.ts" better not modified <br />
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge
