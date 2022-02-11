@@ -1,6 +1,6 @@
 import {
   openDB, closeDB, sqLiteExec, sqLiteGet,
-} from '../db/tmp/sqlite-db';
+} from '../db/sqlite-db';
 import { ConsoleColors } from './general.service';
 
 export interface PeopleData {
