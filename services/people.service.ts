@@ -107,7 +107,7 @@ export class PeopleAPIService {
     return person;
   };
 
-  updatePerson = async (uuid: string, data = {} as any): Promise<any[]> => {
+  updatePerson = async (uuid: string, data: any): Promise<any[]> => {
     const {
       name, gender, picture, email, role,
     } = data;

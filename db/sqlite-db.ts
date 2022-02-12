@@ -13,7 +13,7 @@ export async function openDB() {
 export async function sqLiteExec(db: any, queryString: string) {
   const start = performance.now();
   return await db.exec(queryString)
-    .then(async (response = {} as any) => {
+    .then(async (response:any) => {
       const end = performance.now();
       console.log(
         `%cQuery: ${queryString}, took ${(end - start).toFixed(2)} milliseconds`,

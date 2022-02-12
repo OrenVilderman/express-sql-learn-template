@@ -105,6 +105,20 @@ describe('Controllers Tests Suite', () => {
       expect(winnersWrongUUID.type).to.equal('text/html');
     });
 
+    it('Drop People And Create Winner (Negative)', async () => {
+      const queryAPIService = new QueryAPIService();
+      await queryAPIService.initiateSQLite();
+      await queryAPIService.dropTableByName('people');
+      const winnersWrongUUID = await request(app).post('/api/V0.1/winner/create');
+      expect(winnersWrongUUID.status).to.equal(500);
+      expect(winnersWrongUUID.text).to.equal('Create new winner Error!');
+      expect(winnersWrongUUID.type).to.equal('text/html');
+      const peopleCreate = await request(app).post('/api/V0.1/query/create');
+      expect(peopleCreate.status).to.equal(201);
+      expect(peopleCreate.body[0]).to.be.an('object').that.is.not.null;
+      expect(peopleCreate.type).to.equal('application/json');
+    });
+
     it('CRUD', async () => {
       const winnersCreate = await request(app).post('/api/V0.1/winner/create');
       expect(winnersCreate.status).to.equal(201);
@@ -139,6 +153,18 @@ describe('Controllers Tests Suite', () => {
       expect(winnersGetAfter.text).to.equal(`Winner with id of: ${winnersUpdate.body[0].id}, not found!`);
       expect(winnersGetAfter.type).to.equal('text/html');
     });
+
+    it('Update To Wrong Value (Negative)', async () => {
+      const winnersCreate = await request(app).post('/api/V0.1/winner/create');
+      expect(winnersCreate.status).to.equal(201);
+
+      const winnersUpdate = await request(app).patch(`/api/V0.1/winner/${winnersCreate.body[0].id}`).send({
+        luckyNumber: 'Test',
+      });
+      expect(winnersUpdate.status).to.equal(400);
+      expect(winnersUpdate.text).to.equal('Wrong value for lucky number: Test');
+      expect(winnersUpdate.type).to.equal('text/html');
+    });
   });
 
   describe('Users', () => {
@@ -154,6 +180,20 @@ describe('Controllers Tests Suite', () => {
       expect(usersWrongUUID.status).to.equal(404);
       expect(usersWrongUUID.text).to.equal('User with id of: 0, not found!');
       expect(usersWrongUUID.type).to.equal('text/html');
+    });
+
+    it('Drop People And Create User (Negative)', async () => {
+      const queryAPIService = new QueryAPIService();
+      await queryAPIService.initiateSQLite();
+      await queryAPIService.dropTableByName('people');
+      const usersWrongUUID = await request(app).post('/api/V0.1/user/create');
+      expect(usersWrongUUID.status).to.equal(500);
+      expect(usersWrongUUID.text).to.equal('Create new user Error!');
+      expect(usersWrongUUID.type).to.equal('text/html');
+      const peopleCreate = await request(app).post('/api/V0.1/query/create');
+      expect(peopleCreate.status).to.equal(201);
+      expect(peopleCreate.body[0]).to.be.an('object').that.is.not.null;
+      expect(peopleCreate.type).to.equal('application/json');
     });
 
     it('CRUD', async () => {
@@ -189,6 +229,18 @@ describe('Controllers Tests Suite', () => {
       expect(usersGetAfter.status).to.equal(404);
       expect(usersGetAfter.text).to.equal(`User with id of: ${usersUpdate.body[0].id}, not found!`);
       expect(usersGetAfter.type).to.equal('text/html');
+    });
+
+    it('Update To Wrong Value (Negative)', async () => {
+      const usersCreate = await request(app).post('/api/V0.1/user/create');
+      expect(usersCreate.status).to.equal(201);
+
+      const usersUpdate = await request(app).patch(`/api/V0.1/user/${usersCreate.body[0].id}`).send({
+        luck: 5,
+      });
+      expect(usersUpdate.status).to.equal(400);
+      expect(usersUpdate.text).to.equal('Wrong value for luck: 5');
+      expect(usersUpdate.type).to.equal('text/html');
     });
   });
 });

@@ -73,7 +73,7 @@ export class GeneralService {
       timeout: requestInit?.timeout,
       size: requestInit?.size,
     })
-      .then(async (response = {} as any) => {
+      .then(async (response:any) => {
         const end = performance.now();
         const isSucsess = !!(response.status > 199 && response.status < 400);
         console[isSucsess ? 'log' : 'error'](
@@ -83,7 +83,7 @@ export class GeneralService {
         );
         try {
           if (response.headers.get('content-type')?.startsWith('image')) {
-            responseStr = await response.buffer().then((r = {} as any) => r.toString('base64'));
+            responseStr = await response.buffer().then((r:any) => r.toString('base64'));
             parsed = {
               Type: 'image/base64',
               Text: responseStr,

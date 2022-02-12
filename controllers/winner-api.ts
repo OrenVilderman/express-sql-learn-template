@@ -9,7 +9,7 @@ export const getAllWinners = async (request: Request, response: Response) => {
 
   const winners = await peopleAPIService.getFromDBTable('winners');
 
-  if (typeof winners[0] === 'object' && winners[0] != null) {
+  if (winners && typeof winners[0] === 'object' && winners[0] != null) {
     response.status(200).send(winners);
   } else {
     response.status(404).send('Winners table is empty!');
@@ -22,7 +22,7 @@ export const getWinnerByID = async (request: Request, response: Response) => {
 
   const winners = await peopleAPIService.getFromTableByID('winners', Number(id));
 
-  if (typeof winners[0] === 'object' && winners[0] != null) {
+  if (winners && typeof winners[0] === 'object' && winners[0] != null) {
     response.status(200).send(winners);
   } else {
     response.status(404).send(`Winner with id of: ${Number(id)}, not found!`);
@@ -31,10 +31,15 @@ export const getWinnerByID = async (request: Request, response: Response) => {
 
 export const createNewWinner = async (request: Request, response: Response) => {
   const winnerAPIService = new WinnerAPIService();
-
-  const winners = await winnerAPIService.createNewWinner();
-
-  if (typeof winners[0] === 'object' && winners[0] != null) {
+  let winners: any;
+  try {
+    winners = await winnerAPIService.createNewWinner();
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(`%cError in Create Winner: ${error.message}`);
+    }
+  }
+  if (winners && typeof winners[0] === 'object' && winners[0] != null) {
     response.status(201).send(winners);
   } else {
     response.status(500).send('Create new winner Error!');
@@ -47,9 +52,9 @@ export const updateLuckyNumber = async (request: Request, response: Response) =>
   const queryAPIService = new QueryAPIService();
   await queryAPIService.initiateSQLite();
 
-  let winner = [];
+  let winners = [];
   if (!Number.isNaN(Number(luckyNumber))) {
-    winner = await queryAPIService.selectByQuery(
+    winners = await queryAPIService.selectByQuery(
       'SELECT * FROM '
       + 'winners '
       + 'WHERE '
@@ -57,9 +62,9 @@ export const updateLuckyNumber = async (request: Request, response: Response) =>
     );
   }
 
-  if (typeof winner[0] === 'object' && winner[0] != null) {
+  if (winners && typeof winners[0] === 'object' && winners[0] != null) {
     const winnerAPIService = new WinnerAPIService();
-    const updatedWinner = await winnerAPIService.updateLuckyNumber(winner[0], luckyNumber);
+    const updatedWinner = await winnerAPIService.updateLuckyNumber(winners[0], luckyNumber);
     response.status(200).send(updatedWinner);
   } else if (Number.isNaN(Number(luckyNumber))) {
     response.status(400).send(`Wrong value for lucky number: ${luckyNumber}`);

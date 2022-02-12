@@ -7,7 +7,7 @@ export const getAllPeople = async (request: Request, response: Response) => {
 
   const people = await peopleAPIService.getFromDBTable('people');
 
-  if (typeof people[0] === 'object' && people[0] != null) {
+  if (people && typeof people[0] === 'object' && people[0] != null) {
     response.status(200).send(people);
   } else {
     response.status(404).send('People table is empty!');
@@ -20,7 +20,7 @@ export const getPersonByUUID = async (request: Request, response: Response) => {
 
   const people = await peopleAPIService.getFromPeopleByUUID(uuid);
 
-  if (typeof people[0] === 'object' && people[0] != null) {
+  if (people && typeof people[0] === 'object' && people[0] != null) {
     response.status(200).send(people);
   } else {
     response.status(404).send(`Person with uuid of: ${uuid}, not found!`);
@@ -33,7 +33,7 @@ export const getPersonByName = async (request: Request, response: Response) => {
 
   const people = await peopleAPIService.getFromPeopleByName(String(name));
 
-  if (typeof people[0] === 'object' && people[0] != null) {
+  if (people && typeof people[0] === 'object' && people[0] != null) {
     response.status(200).send(people);
   } else {
     response.status(404).send(`Person with name of: ${name}, not found!`);
@@ -45,7 +45,7 @@ export const createNewPerson = async (request: Request, response: Response) => {
 
   const people = await peopleAPIService.createNewPerson();
 
-  if (typeof people[0] === 'object' && people[0] != null) {
+  if (people && typeof people[0] === 'object' && people[0] != null) {
     response.status(201).send(people);
   } else {
     response.status(500).send('Create new person Error!');
@@ -58,7 +58,7 @@ export const updatePerson = async (request: Request, response: Response) => {
 
   const people = await peopleAPIService.updatePerson(uuid, request.body);
 
-  if (typeof people[0] === 'object' && people[0] != null) {
+  if (people && typeof people[0] === 'object' && people[0] != null) {
     response.status(200).send(people);
   } else {
     response.status(404).send(`Person with uuid of: ${uuid}, not found!`);
@@ -71,7 +71,7 @@ export const removePerson = async (request: Request, response: Response) => {
 
   const people = await peopleAPIService.removePerson(Number(id));
 
-  if (typeof people[0] === 'object' && people[0] != null) {
+  if (people && typeof people[0] === 'object' && people[0] != null) {
     response.status(500).send(`Person with id of: ${Number(id)}, was not removed!`);
   } else if (people.includes('Error')) {
     response.status(404).send(`Person with id of: ${id}, not found!`);
