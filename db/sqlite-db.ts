@@ -33,7 +33,7 @@ export async function sqLiteExec(db: any, queryString: string) {
 export async function sqLiteGet(db: any, queryString: string) {
   const start = performance.now();
   return await db.all(queryString)
-    .then(async (response = {} as any) => {
+    .then(async (response:any) => {
       const end = performance.now();
       console.log(
         `%cQuery: ${queryString}, took ${(end - start).toFixed(2)} milliseconds`,
