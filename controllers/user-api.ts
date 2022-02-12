@@ -23,7 +23,7 @@ export const getUserByID = async (request: Request, response: Response) => {
   if (typeof users[0] === 'object' && users[0] != null) {
     response.status(200).send(users);
   } else {
-    response.status(404).send(`User with uuid of: ${Number(id)}, not found!`);
+    response.status(404).send(`User with id of: ${Number(id)}, not found!`);
   }
 };
 
@@ -49,7 +49,7 @@ export const updateLuck = async (request: Request, response: Response) => {
   if (typeof luck == 'boolean') {
     user = await queryAPIService.selectByQuery(
       'SELECT * FROM '
-      + 'winners '
+      + 'users '
       + 'WHERE '
       + `id=${Number(id)}`,
     );

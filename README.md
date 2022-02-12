@@ -25,10 +25,10 @@ npm test
 ### UI interface is now available in local server at: http://localhost:${PORT}/index.html
 
 ## Unit tests cover status:
-### Controllers 60%
+### Controllers 88.82%
 ### DB* 100%
 ### Routes 100%   
-### Services 70%
+### Services 84.87%
 ##### * - DB include crush test that the server can't recover from, these tests are safe to run but the test file "db.crush.test.ts" better not modified <br />
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge

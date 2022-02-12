@@ -67,13 +67,13 @@ describe('Sanity Tests Suite', () => {
     const winnerNotFound = await request(app).get('/api/V0.1/winner/error');
     expect(winnerNotFound.status).to.equal(404);
     expect(winnerNotFound.type).to.equal('text/html');
-    expect(winnerNotFound.text).to.include('Winner with uuid of: NaN, not found!');
+    expect(winnerNotFound.text).to.include('Winner with id of: NaN, not found!');
   });
 
   it('User Not Found', async () => {
     const userNotFound = await request(app).get('/api/V0.1/user/error');
     expect(userNotFound.status).to.equal(404);
     expect(userNotFound.type).to.equal('text/html');
-    expect(userNotFound.text).to.include('User with uuid of: NaN, not found!');
+    expect(userNotFound.text).to.include('User with id of: NaN, not found!');
   });
 });

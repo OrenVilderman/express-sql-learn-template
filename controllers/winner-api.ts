@@ -25,7 +25,7 @@ export const getWinnerByID = async (request: Request, response: Response) => {
   if (typeof winners[0] === 'object' && winners[0] != null) {
     response.status(200).send(winners);
   } else {
-    response.status(404).send(`Winner with uuid of: ${Number(id)}, not found!`);
+    response.status(404).send(`Winner with id of: ${Number(id)}, not found!`);
   }
 };
 
