@@ -125,7 +125,7 @@ id,luck,join_date
 ### UI interface is available in local server at: http://localhost:${PORT}/index.html
 
 ## Unit tests cover status:
-<img alt="Image_Of_Unit_Tests_Cover_Report" src="public\Unit_Tests_Cover.png" cstyle="width:65%;"/>
+<img alt="Image_Of_Unit_Tests_Cover_Report" src="public\Unit_Tests_Cover.png" style="width:95%;"/>
 
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge
