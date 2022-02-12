@@ -35,6 +35,7 @@ module.exports = {
     'import/no-mutable-exports': 'off',
     'consistent-return': 'off',
     'no-promise-executor-return': 'off',
-    'no-unused-expressions': 'off'
+    'no-unused-expressions': 'off',
+    'no-async-promise-executor': 'off'
   },
 };

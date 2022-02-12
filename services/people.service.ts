@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { ConsoleColors } from './general.service';
+import { ConsoleColors, exportFormat } from './general.service';
 import { GeneralService, QueryAPIService } from './index';
 
 export class PeopleAPIService {
@@ -105,6 +105,38 @@ export class PeopleAPIService {
       }
     }
     return person;
+  };
+
+  exportPeopleData = async (tableName: string, where: string, format: exportFormat): Promise<string> => {
+    const queryAPIService = new QueryAPIService();
+    await queryAPIService.initiateSQLite();
+    let people = [];
+    try {
+      people = await queryAPIService.selectByQuery(
+        'SELECT * FROM '
+        + `${tableName
+        }${where ? ` WHERE ${where}` : ''}`,
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(`%cDB ERROR: ${error.name}, ${error.message}`, ConsoleColors.Error);
+      }
+    }
+    let dataToExport = '';
+    if (people && typeof people[0] === 'object' && people[0] != null) {
+      const generalService = new GeneralService();
+      try {
+        dataToExport = await generalService.exportDataAsFile(people, format);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(`%cData Export Error: ${error.name}, ${error.message}`, ConsoleColors.Error);
+          dataToExport = error.message;
+        }
+      }
+    } else {
+      dataToExport = undefined as any;
+    }
+    return dataToExport;
   };
 
   updatePerson = async (uuid: string, data: any): Promise<any[]> => {

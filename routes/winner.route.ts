@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import {
-  createNewWinner, getAllWinners, getWinnerByID, updateLuckyNumber,
+  createNewWinner, exportWinnersData, getAllWinners, getWinnerByID, updateLuckyNumber,
 } from '../controllers/winner-api';
 import { ConsoleColors } from '../services/general.service';
 
@@ -11,6 +11,8 @@ winnerRouter.get('/all', getAllWinners);
 winnerRouter.get('/:id', getWinnerByID);
 
 winnerRouter.post('/create', createNewWinner);
+
+winnerRouter.post('/export', exportWinnersData);
 
 winnerRouter.patch('/:id', updateLuckyNumber);
 

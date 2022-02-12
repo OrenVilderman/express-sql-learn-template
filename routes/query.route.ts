@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import {
-  createNewPerson, dropDB, getAllPeople, getPersonByName, getPersonByUUID, removePerson, updatePerson,
+  createNewPerson, dropDB, exportPeopleData, getAllPeople, getPersonByName, getPersonByUUID, removePerson, updatePerson,
 } from '../controllers/query-api';
 import { ConsoleColors } from '../services/general.service';
 
@@ -13,6 +13,8 @@ queryRouter.get('/:uuid', getPersonByUUID);
 queryRouter.get('/', getPersonByName);
 
 queryRouter.post('/create', createNewPerson);
+
+queryRouter.post('/export', exportPeopleData);
 
 queryRouter.patch('/:uuid', updatePerson);
 

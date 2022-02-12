@@ -104,7 +104,7 @@ dist
 .tern-port
 
 # Cashing DB
-/tmp
+*/tmp
 *.db
 *.csv
 

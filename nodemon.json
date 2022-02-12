@@ -1,0 +1,11 @@
+{
+  "ignore": [
+    "*.json",
+    "*.csv",
+    ".md",
+    "*.text",
+    "*.pdf",
+    "*.jpg",
+    "*.png"
+  ]
+}

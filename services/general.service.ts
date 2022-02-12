@@ -11,9 +11,9 @@ const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 
 export let webSocket: WebSocket;
 
-declare type exportFormat =
+export declare type exportFormat =
   | 'csv'
-  | 'txt'
+  | 'text'
   | 'json'
 
 /**
@@ -73,7 +73,7 @@ export class GeneralService {
       timeout: requestInit?.timeout,
       size: requestInit?.size,
     })
-      .then(async (response:any) => {
+      .then(async (response: any) => {
         const end = performance.now();
         const isSucsess = !!(response.status > 199 && response.status < 400);
         console[isSucsess ? 'log' : 'error'](
@@ -83,7 +83,7 @@ export class GeneralService {
         );
         try {
           if (response.headers.get('content-type')?.startsWith('image')) {
-            responseStr = await response.buffer().then((r:any) => r.toString('base64'));
+            responseStr = await response.buffer().then((r: any) => r.toString('base64'));
             parsed = {
               Type: 'image/base64',
               Text: responseStr,
@@ -155,9 +155,21 @@ export class GeneralService {
     return `${headLine}${dataRows}`;
   };
 
-  createTmpFileFromSqLiteTable = async (db: QueryAPIService, tableName: string, type: exportFormat) => {
-    const dbData = await db.selectFromTable(tableName);
-    fs.writeFileSync(path.resolve(process.cwd(), `./db/tmp/out.${type}`), this.convertJsonToCsv(dbData));
+  exportDataAsFile = async (data: any, type: exportFormat) => {
+    let dataToExport;
+    switch (type) {
+      case 'csv':
+        dataToExport = this.convertJsonToCsv(data);
+        break;
+      case 'json':
+      case 'text':
+        dataToExport = JSON.stringify(data);
+        break;
+      default:
+        dataToExport = JSON.stringify(data);
+        break;
+    }
+    fs.writeFileSync(path.resolve(process.cwd(), `./db/tmp/out.${type}`), dataToExport);
     return path.resolve(process.cwd(), `./db/tmp/out.${type}`);
   };
 

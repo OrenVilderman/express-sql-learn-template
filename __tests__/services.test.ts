@@ -73,21 +73,4 @@ describe('Services Tests Suite', () => {
       expect(nonExistingTable).to.be.an('array').with.lengthOf(0);
     });
   });
-
-  // let winnerID: number;
-  // it('Validate Creaet And Remove Winner', async () => {
-  //   const apiCreateWinner = await request(app).post('/api/V0.1/winner/create');
-  //   winnerID = Number(apiCreateWinner.body[0].id);
-  //   const apiDeletePerson = await request(app).delete(`/api/V0.1/query/${winnerID}`);
-  //   expect(apiDeletePerson.status).to.equal(200);
-  //   expect(apiDeletePerson.type).to.equal('application/json');
-  //   expect(apiDeletePerson.body).to.have.property('deleted').a('boolean').that.is.true;
-  // });
-
-  // it('Validate Remvoe Winner (Negative)', async () => {
-  //   const apiDeletePersonNegative = await request(app).delete(`/api/V0.1/query/${winnerID}`);
-  //   expect(apiDeletePersonNegative.status).to.equal(404);
-  //   expect(apiDeletePersonNegative.text).to.equal(`Person with id of: ${winnerID}, not found!`);
-  //   expect(apiDeletePersonNegative.type).to.equal('text/html');
-  // });
 });

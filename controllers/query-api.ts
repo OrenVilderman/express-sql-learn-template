@@ -52,6 +52,19 @@ export const createNewPerson = async (request: Request, response: Response) => {
   }
 };
 
+export const exportPeopleData = async (request: Request, response: Response) => {
+  const { type, where } = request.body;
+  const peopleAPIService = new PeopleAPIService();
+
+  const people = await peopleAPIService.exportPeopleData('people', where, type);
+
+  if (people && typeof people === 'string') {
+    response.status(200).sendFile(people);
+  } else {
+    response.status(500).send('Error: Export people failed!');
+  }
+};
+
 export const updatePerson = async (request: Request, response: Response) => {
   const { uuid } = request.params;
   const peopleAPIService = new PeopleAPIService();

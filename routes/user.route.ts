@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import {
-  createNewUser, getAllUsers, getUserByID, updateLuck,
+  createNewUser, exportUsersData, getAllUsers, getUserByID, updateLuck,
 } from '../controllers/user-api';
 import { ConsoleColors } from '../services/general.service';
 
@@ -11,6 +11,8 @@ userRouter.get('/all', getAllUsers);
 userRouter.get('/:id', getUserByID);
 
 userRouter.post('/create', createNewUser);
+
+userRouter.post('/export', exportUsersData);
 
 userRouter.patch('/:id', updateLuck);
 

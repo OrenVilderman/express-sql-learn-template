@@ -25,7 +25,7 @@ async function getByUUIDOrIDOrAll(type) {
 }
 
 async function createByType() {
-    const type = document.getElementById('type').value;
+    const type = document.getElementById('createType').value;
     let url = '';
     switch (type) {
         case 'People':
@@ -46,6 +46,50 @@ async function createByType() {
             'Content-Type': 'application/json',
         }
     }).then(async (res) => addResponseToNode(await res.text()));
+}
+
+async function exportByType() {
+    const type = document.getElementById('exportType').value;
+    const query = document.getElementById('whereQuery').value;
+    const fileType = document.getElementById('fileType').value;
+    let url = '';
+    switch (type) {
+        case 'People':
+            url = `/api/V0.1/query/export`;
+            break;
+        case 'Winners':
+            url = `/api/V0.1/winner/export`;
+            break;
+        case 'Users':
+            url = `/api/V0.1/user/export`;
+            break;
+        default:
+            break;
+    }
+    await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            type: fileType ? fileType : undefined,
+            where: query ? query : undefined
+        }),
+    }).then(res => res.blob())
+        .then(async (blob) => {
+            const file = window.URL.createObjectURL(blob);
+            if (blob.type == 'text/html') {
+                const errorText = await blob.text();
+                window.alert(errorText);
+            } else {
+                const tmpDownloadLink = document.createElement('A');
+                tmpDownloadLink.href = file;
+                tmpDownloadLink.download = `Export_${query ? query : "All"}`;
+                document.body.appendChild(tmpDownloadLink);
+                tmpDownloadLink.click();
+                document.body.removeChild(tmpDownloadLink);
+            }
+        });
 }
 
 async function patchPersonData() {

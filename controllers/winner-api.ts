@@ -46,6 +46,19 @@ export const createNewWinner = async (request: Request, response: Response) => {
   }
 };
 
+export const exportWinnersData = async (request: Request, response: Response) => {
+  const { type, where } = request.body;
+  const peopleAPIService = new PeopleAPIService();
+
+  const winners = await peopleAPIService.exportPeopleData('winners', where, type);
+
+  if (winners && typeof winners === 'string') {
+    response.status(200).sendFile(winners);
+  } else {
+    response.status(500).send('Error: Export winners failed!');
+  }
+};
+
 export const updateLuckyNumber = async (request: Request, response: Response) => {
   const { id } = request.params;
   const { luckyNumber } = request.body;

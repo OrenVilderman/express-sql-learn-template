@@ -75,9 +75,10 @@
 
         <form id="PostAction" onsubmit="event.preventDefault();">
             <h2>POST</h2>
+            <h3>Create</h3>
             <div>
-                <label for="type">Set the POST request Type</label>
-                <select name="type" id="type">
+                <label for="createType">Set the create request Type</label>
+                <select name="createType" id="createType">
                     <option value="People">People</option>
                     <option value="Winners">Winners</option>
                     <option value="Users">Users</option>
@@ -85,6 +86,27 @@
             </div>
             <div>
                 <input type='button' onclick="createByType();" value="Send POST"></input>
+            </div>
+            <h3>Export</h3>
+            <div>
+                <label for="exportType">Set the export request Type</label>
+                <select name="exportType" id="exportType">
+                    <option value="People">People</option>
+                    <option value="Winners">Winners</option>
+                    <option value="Users">Users</option>
+                </select>
+                <label for="fileType">Set the file response Type</label>
+                <select name="fileType" id="fileType">
+                    <option value="json">JSON</option>
+                    <option value="csv">CSV</option>
+                    <option value="text">Text</option>
+                </select>
+                <label for="whereQuery">Set the export request query</label>
+                <input name="whereQuery" id="whereQuery" value="" placeholder="Enter query...">
+                <h6>example: id=150 OR name LIKE 'i%'</j6>
+            </div>
+            <div>
+                <input type='button' onclick="exportByType();" value="Send POST"></input>
             </div>
         </form>
 
