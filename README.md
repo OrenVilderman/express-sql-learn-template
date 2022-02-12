@@ -23,8 +23,8 @@ npm test
 ```
 
 # API Design Documentation
-## `/api/V0.1`
-CRUD functionality for all the defult tables in the DB is exposed with the andpoint.
+`/api/V0.1`
+CRUD functionality for all the defult tables in the DB is exposed with the andpoints and also available in the UI.
 ## GET
 `GET /api/V0.1/{query|winner|user}/all`
 ### Query Parameters
@@ -125,12 +125,7 @@ id,luck,join_date
 ### UI interface is available in local server at: http://localhost:${PORT}/index.html
 
 ## Unit tests cover status:
-### Controllers 93.62%
-### DB* 100%
-### Routes 100%   
-### Services 87.99%
-##### * - DB include crush test that the server can't recover from, these tests are safe to run but the test file "db.crush.test.ts" better not modified <br />
-
+<img alt="Image_Of_Unit_Tests_Cover_Report" src="public\Unit_Tests_Cover.png" cstyle="width:65%;"/>
 
 ## TODO:
 ### # Create unit tests in precompile script to be later use in git merge
