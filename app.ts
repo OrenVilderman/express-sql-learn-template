@@ -5,7 +5,7 @@ import indexRouter from './routes';
 import { GeneralService, QueryAPIService } from './services';
 
 const generalService = new GeneralService();
-const job = generalService.initiateNewPeopleCronJob(1);
+const job = generalService.initiateNewPeopleCronJob(2);
 job.start();
 
 const queryAPIService = new QueryAPIService();

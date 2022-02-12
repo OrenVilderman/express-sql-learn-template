@@ -179,7 +179,7 @@ export class GeneralService {
    */
   initiateNewPeopleCronJob(intervalTime: number) {
     console.log(`%cCron Job Execution Set To Start Every: ${intervalTime} Minutes`, ConsoleColors.SystemInformation);
-    return new CronJob(`1/7 */${intervalTime} * * * *`, (async (): Promise<void> => {
+    return new CronJob(`1 */${intervalTime} * * * *`, (async (): Promise<void> => {
       console.log('%cCron Job Execution Started', ConsoleColors.SystemInformation);
       let newPerson: any = await this.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
       newPerson = newPerson.Body.results[0];
