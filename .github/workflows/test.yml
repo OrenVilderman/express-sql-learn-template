@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "16"
-          cache: "npm"
 
       # NPM Continuous Integration Install
       - name: NPM Continuous Integration
@@ -34,4 +33,3 @@ jobs:
       # Jest Cover Tests
       - name: Jest Cover Tests
         run: npx jest __tests__/~app.test.ts
-          exit 0
