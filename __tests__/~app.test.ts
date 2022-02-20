@@ -15,10 +15,10 @@ describe('Sanity Tests Suite', () => {
     expect(publicIndex.text).to.include('<h1>TypeScript Express SQL Public UI</h1>');
   });
 
-  it('App Page Not Found', async () => {
-    const appNotFound = await request(app).get('/error');
-    expect(appNotFound.status).to.equal(404);
-    expect(appNotFound.type).to.equal('text/html');
-    expect(appNotFound.text).to.include('<h1>Page not found</h1>');
-  });
+  // it('App Page Not Found', async () => {
+  //   const appNotFound = await request(app).get('/error');
+  //   expect(appNotFound.status).to.equal(404);
+  //   expect(appNotFound.type).to.equal('text/html');
+  //   expect(appNotFound.text).to.include('<h1>Page not found</h1>');
+  // });
 });
