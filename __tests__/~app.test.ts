@@ -2,7 +2,6 @@ import request from 'supertest';
 import { expect } from 'chai';
 import { describe, it, afterAll } from '@jest/globals';
 import server, { app } from '../app';
-import 'dotenv/config';
 
 describe('Sanity Tests Suite', () => {
   afterAll(async () => {
