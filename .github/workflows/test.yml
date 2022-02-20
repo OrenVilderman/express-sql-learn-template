@@ -35,4 +35,4 @@ jobs:
 
       # Jest Cover Tests
       - name: Jest Cover Tests
-        run: npm run testing
+        run: npm test

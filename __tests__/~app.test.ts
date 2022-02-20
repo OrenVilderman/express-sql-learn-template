@@ -4,9 +4,9 @@ import { describe, it, afterAll } from '@jest/globals';
 import server, { app } from '../app';
 
 describe('Sanity Tests Suite', () => {
-  // afterAll(async () => {
-  //   server.close();
-  // });
+  afterAll(async () => {
+    server.close();
+  });
 
   it('Public Index', async () => {
     const publicIndex = await request(app).get('/index.html');
