@@ -12,6 +12,8 @@ on:
 jobs:
   build-tests:
     runs-on: ubuntu-latest
+    
+    continue-on-error: true
 
     steps:
       - name: Use Checkout v2
