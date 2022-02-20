@@ -8,12 +8,12 @@ describe('Sanity Tests Suite', () => {
     server.close();
   });
 
-  // it('Public Index', async () => {
-  //   const publicIndex = await request(app).get('/index.html');
-  //   expect(publicIndex.status).to.equal(200);
-  //   expect(publicIndex.type).to.equal('text/html');
-  //   expect(publicIndex.text).to.include('<h1>TypeScript Express SQL Public UI</h1>');
-  // });
+  it('Public Index', async () => {
+    const publicIndex = await request(app).get('/index.html');
+    expect(publicIndex.status).to.equal(200);
+    expect(publicIndex.type).to.equal('text/html');
+    expect(publicIndex.text).to.include('<h1>TypeScript Express SQL Public UI</h1>');
+  });
 
   it('App Page Not Found', async () => {
     const appNotFound = await request(app).get('/error');
