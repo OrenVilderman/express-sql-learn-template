@@ -12,7 +12,7 @@ app.use('/api/V0.1', indexRouter);
 describe('Sanity Tests Suite', () => {
   it('Public Index', async () => {
     const publicIndex = await request(app).get('/index.html');
-    expect(publicIndex.status).to.equal(200);
+    expect(publicIndex.status).to.equal(201);
     expect(publicIndex.type).to.equal('text/html');
     expect(publicIndex.text).to.include('<h1>TypeScript Express SQL Public UI</h1>');
   });
