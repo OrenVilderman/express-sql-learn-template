@@ -17,10 +17,10 @@ jobs:
       - name: Use Checkout v2
         uses: actions/checkout@v2
 
-      - name: Use Node.js 16
+      - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "14"
           cache: "npm"
 
       # NPM Continuous Integration Install
@@ -34,9 +34,3 @@ jobs:
       # Jest Cover Tests
       - name: Jest Cover Tests
         run: npm test
-
-  clean:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Use Checkout v2
-        uses: actions/checkout@v2
