@@ -132,9 +132,11 @@ describe('Services Tests Suite', () => {
       await peopleAPIService.createNewPerson();
       const nonExistingTable = await peopleAPIService.exportPeopleData('people', 'name LIKE \'%%\'', 'text');
       /**
-       * This validation of the error message will not be possible in the github actions VM
+       * When tests run on ubentu, files have diffrent limitations
        */
-      if (nonExistingTable) {
+      if (nonExistingTable.includes('runner')) {
+        expect(nonExistingTable).to.include('/db/tmp/out.text');
+      } else {
         expect(nonExistingTable).to.include('\\db\\tmp\\out.text');
       }
     });
@@ -143,9 +145,11 @@ describe('Services Tests Suite', () => {
       const peopleAPIService = new PeopleAPIService();
       const nonExistingFile = await peopleAPIService.exportPeopleData('people', 'name LIKE \'%%\'', '|' as any);
       /**
-       * This validation of the error message will not be possible in the github actions VM
+       * When tests run on ubentu, files have diffrent limitations
        */
-      if (nonExistingFile) {
+      if (nonExistingFile.includes('runner')) {
+        expect(nonExistingFile).to.include('/db/tmp/out.|');
+      } else {
         expect(nonExistingFile).to.include('NOENT: no such file or directory');
       }
     });
