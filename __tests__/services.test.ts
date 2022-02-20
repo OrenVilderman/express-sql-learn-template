@@ -131,13 +131,27 @@ describe('Services Tests Suite', () => {
       await peopleAPIService.createNewPerson();
       await peopleAPIService.createNewPerson();
       const nonExistingTable = await peopleAPIService.exportPeopleData('people', 'name LIKE \'%%\'', 'text');
-      expect(nonExistingTable).to.include('\\db\\tmp\\out.text');
+      /**
+       * When tests run on ubentu, files have diffrent limitations
+       */
+      if (nonExistingTable.includes('runner')) {
+        expect(nonExistingTable).to.include('/db/tmp/out.text');
+      } else {
+        expect(nonExistingTable).to.include('\\db\\tmp\\out.text');
+      }
     });
 
     it('Export No Such File Error', async () => {
       const peopleAPIService = new PeopleAPIService();
       const nonExistingFile = await peopleAPIService.exportPeopleData('people', 'name LIKE \'%%\'', '|' as any);
-      expect(nonExistingFile).to.include('NOENT: no such file or directory');
+      /**
+       * When tests run on ubentu, files have diffrent limitations
+       */
+      if (nonExistingFile.includes('runner')) {
+        expect(nonExistingFile).to.include('/db/tmp/out.|');
+      } else {
+        expect(nonExistingFile).to.include('NOENT: no such file or directory');
+      }
     });
 
     it('Update From Dropped Table Error', async () => {

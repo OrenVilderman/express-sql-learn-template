@@ -32,9 +32,4 @@ server.on('close', async () => {
   if (webSocket) {
     webSocket.close();
   }
-  /**
-   * Allow time to create logs in the server before closing
-   */
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  process.exit(1);
 });
