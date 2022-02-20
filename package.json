@@ -5,9 +5,9 @@
   "main": "app.ts",
   "scripts": {
     "test": "jest",
-    "test_crush": "jest __tests__/db.crush.test.ts",
-    "start": "nodemon --exec npx ts-node app.ts",
-    "start-backup": "ts-node app.ts",
+    "start": "ts-node app.ts",
+    "start-dev": "nodemon --exec npx ts-node app.ts",
+    "lint-test": "eslint --ext .ts .",
     "fix-lint": "npx eslint --ext .ts . --fix"
   },
   "repository": {

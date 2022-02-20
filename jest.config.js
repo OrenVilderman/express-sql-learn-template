@@ -4,8 +4,11 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
   maxWorkers: 1,
-  testSequencer:  "./__tests__/testSequencer.js",
+  testSequencer: "./__tests__/testSequencer.js",
   testPathIgnorePatterns: ["testSequencer.js"],
+  coveragePathIgnorePatterns: [
+    "handlers.ts",
+  ],
   reporters: [
     "default",
     ["jest-html-reporters", {
