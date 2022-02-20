@@ -1,7 +1,7 @@
 import express from 'express';
 import { expect } from 'chai';
 import {
-  describe, it,
+  describe, it, afterAll,
 } from '@jest/globals';
 import indexRouter from '../routes/index';
 import { PeopleAPIService, QueryAPIService } from '../services/index';
@@ -11,6 +11,12 @@ app.use(express.json());
 app.use('/api/V0.1', indexRouter);
 
 describe('Services Tests Suite', () => {
+  afterAll(async () => {
+    /**
+     * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+     */
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  });
   describe('Query', () => {
     it('Re-Initiate DB And Validate USE', async () => {
       const queryAPIService = new QueryAPIService();

@@ -32,4 +32,5 @@ jobs:
 
       # Jest Cover Tests
       - name: Jest Cover Tests
-        run: npm run ci-test
+        run: npm test
+        
