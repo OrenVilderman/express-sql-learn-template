@@ -32,4 +32,4 @@ jobs:
 
       # Jest Cover Tests
       - name: Jest Cover Tests
-        run: CI=false npx jest __tests__/~app.test.ts
+        run: CI= npx jest __tests__/~app.test.ts
