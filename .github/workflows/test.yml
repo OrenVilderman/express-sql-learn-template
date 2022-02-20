@@ -33,5 +33,7 @@ jobs:
       # Jest Cover Tests
       - name: Jest Cover Tests
         run: npm test
-        continue-on-error: true
 
+      # Linter Tests
+      - name: Linter Tests
+        run: npm run lint-test
