@@ -7,8 +7,6 @@ module.exports = {
   testSequencer: "./__tests__/testSequencer.js",
   testPathIgnorePatterns: [
     "testSequencer.js",
-    "services.test.ts",
-    "~app.test.ts"
   ],
   coveragePathIgnorePatterns: [
     "handlers.ts",
