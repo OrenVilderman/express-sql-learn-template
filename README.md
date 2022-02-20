@@ -1,4 +1,9 @@
 # express-sql-learn-template
+Demo express server with sql, controllers, routes and services, as a basic demonstration of architecture and how to implement unit testing with high coverage in typescript
+
+## GitHub Repository
+[![`GitHub`](https://img.shields.io/github/package-json/v/OrenVilderman/express-sql-learn-template?logo=github)](https://github.com/OrenVilderman/express-sql-learn-template.git)
+[![Tests](https://github.com/OrenVilderman/express-sql-learn-template/actions/workflows/test.yml/badge.svg)](https://github.com/OrenVilderman/express-sql-learn-template/actions/workflows/test.yml)
 
 ## Installation
 Install by running 
@@ -6,17 +11,17 @@ Install by running
 npm install
 ```
 
-## Start Server with debug* (Optional to use F5 before running the script)
-Start with nodemon by running:
+## Start the server with debug* (Optional to use F5 before running the script)
+Start the server by running:
 ``` 
 npm start
 ```
-Start directly with ts-node by running:
+Start with nodemon by running:
 ``` 
-npm run start-backup
+npm run start-dev
 ```
 
-## Start the tests that will print the full Jest HTML coverage report
+## Start the jest coverage tests that will print the full Jest HTML coverage report
 Start the tests by running:
 ``` 
 npm test
@@ -125,17 +130,23 @@ id,luck,join_date
 ### UI interface is available in local server at: http://localhost:${PORT}/index.html
 
 ## Unit tests cover status:
-<img alt="Image_Of_Unit_Tests_Cover_Report" src="public\Unit_Tests_Cover.png" style="width:95%;"/>
+<img alt="Image_Of_Unit_Tests_Cover_Report" src="public\Unit_Tests_Cover.png" style="min-width:800px; width:1200px;"/>
 
-## TODO:
-### # Create unit tests in precompile script to be later use in git merge
-### # Create compile and lint tests by using GitHub Actions 
-### # Improve the public UI+UX
-### ~~Push to GitHub the public interface~~ Done
-### ~~Add PATCH API calls from the public UI~~ Done
-### ~~Add endpoint documentation in README to be used in Postman~~ Done
-### ~~Publish the file export methods that support CSV,JSON and TEXT export format for DB tables~~ Done
-### # Think if to allow SQL Injections via the UI
-### # Publish site to domain
-### # Decide version 1.0.0
-### # Add UI library for components
+## Pull Request / Contribute
+PRs are only possible from a separate branch.
+
+Before submitting a PR please validate lint, unit tests, test cover and version update:
+- You should fix linting issues by running `npm run fix-lint` - Make sure to fix every error and warning.
+- You should run unit tests by running `npm test` - Make sure that all the tests pass.
+- The test coverage should get to **100%**, now: `98.66% Statements 739/749 | 90.6% Branches 270/289 | 99.14% Functions 116/117 | 98.68% Lines 600/608` - Make sure to add tests if needed.
+- **Always** increment* the version, according to the specifications below.
+- Adding a unit test that uncover a bug is very welcome - I will create a fix for the bug that will allow you to pull and merge your unit test ASAP.
+
+*The correct way to increment the version is by using the correct npm script that represent the change you are introducing
+
+## Versions
+Run `npm version patch` in cases of bug fixes or small modifications.
+
+Run `npm version minor` in cases of functionality changes with **non-breaking** changes.
+
+Run `npm version major` in cases of important functionality or any **breaking** changes.
