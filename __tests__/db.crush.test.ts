@@ -27,13 +27,99 @@ describe('DB Crush Tests Suite', () => {
     expect(apiDeletePersonNegative.type).to.equal('text/html');
   });
 
-  it('Validate SQLite Close Errors (Crush Test)', async () => {
+  it('Validate SQLite Close Errors By Query (Crush Test)', async () => {
     const queryAPIService = new QueryAPIService();
     await queryAPIService.initiateSQLite();
     await queryAPIService.quitSQLite();
     let closedDBMessage;
     try {
       closedDBMessage = await queryAPIService.selectByQuery('Test SQL Query');
+    } catch (error) {
+      if (error instanceof Error) {
+        closedDBMessage = error.message;
+      }
+    }
+    expect(closedDBMessage).to.equal('DB not initiated');
+  });
+
+  it('Validate SQLite Close Errors By Name (Crush Test)', async () => {
+    const queryAPIService = new QueryAPIService();
+    let closedDBMessage;
+    try {
+      closedDBMessage = await queryAPIService.dropTableByName('people');
+    } catch (error) {
+      if (error instanceof Error) {
+        closedDBMessage = error.message;
+      }
+    }
+    expect(closedDBMessage).to.equal('DB not initiated');
+  });
+
+  it('Validate SQLite Close Errors Quit (Crush Test)', async () => {
+    const queryAPIService = new QueryAPIService();
+    let closedDBMessage;
+    try {
+      closedDBMessage = await queryAPIService.quitSQLite();
+    } catch (error) {
+      if (error instanceof Error) {
+        closedDBMessage = error.message;
+      }
+    }
+    expect(closedDBMessage).to.equal('DB not initiated');
+  });
+
+  it('Validate SQLite Close Errors Create From Data (Crush Test)', async () => {
+    const queryAPIService = new QueryAPIService();
+    let closedDBMessage;
+    try {
+      closedDBMessage = await queryAPIService.addOrCreateDBTableFromData([{
+        id: 15,
+        joinDate: new Date(Date.now()).toISOString() as any,
+        luck: false,
+      }]);
+    } catch (error) {
+      if (error instanceof Error) {
+        closedDBMessage = error.message;
+      }
+    }
+    expect(closedDBMessage).to.equal('DB not initiated');
+  });
+
+  it('Validate SQLite Close Errors Replace (Crush Test)', async () => {
+    const queryAPIService = new QueryAPIService();
+    let closedDBMessage;
+    try {
+      closedDBMessage = await queryAPIService.insertOrReplaceRow([{
+        id: 15,
+        joinDate: new Date(Date.now()).toISOString() as any,
+        luck: false,
+      }]);
+    } catch (error) {
+      if (error instanceof Error) {
+        closedDBMessage = error.message;
+      }
+    }
+    expect(closedDBMessage).to.equal('DB not initiated');
+  });
+
+  it('Validate SQLite Close Errors Select (Crush Test)', async () => {
+    const queryAPIService = new QueryAPIService();
+    let closedDBMessage;
+    try {
+      closedDBMessage = await queryAPIService.selectFromTable('people');
+    } catch (error) {
+      if (error instanceof Error) {
+        closedDBMessage = error.message;
+      }
+    }
+    expect(closedDBMessage).to.equal('DB not initiated');
+  });
+
+  it('Validate SQLite Close Errors Select (Crush Test)', async () => {
+    const queryAPIService = new QueryAPIService();
+    let closedDBMessage;
+    try {
+      closedDBMessage = await queryAPIService.deleteRowFromTableById('people', 0);
     } catch (error) {
       if (error instanceof Error) {
         closedDBMessage = error.message;

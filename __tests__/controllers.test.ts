@@ -88,6 +88,61 @@ describe('Controllers Tests Suite', () => {
       expect(peopleGetAfter.text).to.equal('Person with name of: TestName, not found!');
       expect(peopleGetAfter.type).to.equal('text/html');
     });
+
+    it('Create From Wrong Site (Negative)', async () => {
+      process.env.USER_API = 'dummy.not.a.site.comb';
+      const createFromWrongSite = await request(app).post('/api/V0.1/query/create');
+      expect(createFromWrongSite.status).to.equal(500);
+      expect(createFromWrongSite.text).to.equal('Create new person Error!');
+      expect(createFromWrongSite.type).to.equal('text/html');
+      delete process.env.USER_API;
+      await request(app).post('/api/V0.1/query/create');
+    });
+
+    it('Update With Wrong UUID (Negative)', async () => {
+      const updateWithWrongUUID = await request(app).patch(`/api/V0.1/query/${500}`).send({
+        name: 'TestName',
+        role: 'TestRole',
+        gender: 'TestGender',
+        picture: 'TestPicture',
+        email: 'TestEmail',
+      });
+      expect(updateWithWrongUUID.status).to.equal(404);
+      expect(updateWithWrongUUID.text).to.equal('Person with uuid of: 500, not found!');
+      expect(updateWithWrongUUID.type).to.equal('text/html');
+    });
+
+    it('Delete With Wrong ID (Negative)', async () => {
+      const deleteWithWrongID = await request(app).delete(`/api/V0.1/query/${-5}`);
+      expect(deleteWithWrongID.status).to.equal(404);
+      expect(deleteWithWrongID.text).to.equal('Person with id of: -5, not found!');
+      expect(deleteWithWrongID.type).to.equal('text/html');
+    });
+
+    it('Delete With Wrong ID (Negative)', async () => {
+      const deleteWithWrongID = await request(app).delete(`/api/V0.1/query/${'LIKE TESTDATA'}`);
+      expect(deleteWithWrongID.status).to.equal(500);
+      expect(deleteWithWrongID.text).to.equal('Person with id of: NaN, was not removed!');
+      expect(deleteWithWrongID.type).to.equal('text/html');
+    });
+
+    it('Drop DB With DB_KEY', async () => {
+      const deleteWithKey = await request(app).delete('/api/V0.1/query').send({
+        dbKey: '%DB_KEY%',
+      });
+      expect(deleteWithKey.status).to.equal(200);
+      expect(deleteWithKey.body).to.deep.equal({ deleted: true });
+      expect(deleteWithKey.type).to.equal('application/json');
+    });
+
+    it('Drop DB With Wrong Key (Negative)', async () => {
+      const deleteWithKey = await request(app).delete('/api/V0.1/query').send({
+        dbKey: 'Test Key',
+      });
+      expect(deleteWithKey.status).to.equal(401);
+      expect(deleteWithKey.text).to.equal('Unauthorized to perform this request');
+      expect(deleteWithKey.type).to.equal('text/html');
+    });
   });
 
   describe('Winners', () => {
@@ -165,6 +220,15 @@ describe('Controllers Tests Suite', () => {
       expect(winnersUpdate.text).to.equal('Wrong value for lucky number: Test');
       expect(winnersUpdate.type).to.equal('text/html');
     });
+
+    it('Update With Wrong ID (Negative)', async () => {
+      const updateWithWrongID = await request(app).patch(`/api/V0.1/winner/${-5}`).send({
+        luckyNumber: 7,
+      });
+      expect(updateWithWrongID.status).to.equal(404);
+      expect(updateWithWrongID.text).to.equal('Winner with id of: -5, not found!');
+      expect(updateWithWrongID.type).to.equal('text/html');
+    });
   });
 
   describe('Users', () => {
@@ -241,6 +305,15 @@ describe('Controllers Tests Suite', () => {
       expect(usersUpdate.status).to.equal(400);
       expect(usersUpdate.text).to.equal('Wrong value for luck: 5');
       expect(usersUpdate.type).to.equal('text/html');
+    });
+
+    it('Update With Wrong ID (Negative)', async () => {
+      const updateWithWrongID = await request(app).patch(`/api/V0.1/user/${-5}`).send({
+        luck: true,
+      });
+      expect(updateWithWrongID.status).to.equal(404);
+      expect(updateWithWrongID.text).to.equal('User with id of: -5, not found!');
+      expect(updateWithWrongID.type).to.equal('text/html');
     });
   });
 });

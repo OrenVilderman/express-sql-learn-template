@@ -84,7 +84,7 @@ export const removePerson = async (request: Request, response: Response) => {
 
   const people = await peopleAPIService.removePerson(Number(id));
 
-  if (people && typeof people[0] === 'object' && people[0] != null) {
+  if (Number.isNaN(Number(id)) || (people && typeof people[0] === 'object')) {
     response.status(500).send(`Person with id of: ${Number(id)}, was not removed!`);
   } else if (people.includes('Error')) {
     response.status(404).send(`Person with id of: ${id}, not found!`);

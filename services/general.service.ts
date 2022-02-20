@@ -169,17 +169,24 @@ export class GeneralService {
         dataToExport = JSON.stringify(data);
         break;
     }
-    fs.writeFileSync(path.resolve(process.cwd(), `./db/tmp/out.${type}`), dataToExport);
+    try {
+      fs.writeFileSync(path.resolve(process.cwd(), `./db/tmp/out.${type}`), dataToExport);
+    } catch (error: any) {
+      console.error(`%cData Export Error: ${error.message}`, ConsoleColors.Error);
+      throw new Error(error.message);
+    }
     return path.resolve(process.cwd(), `./db/tmp/out.${type}`);
   };
 
   /**
    * This chron job will run every interval you set and add people from the random people generator API
    * @param intervalTime
+   * @param intervalDebug This can be used to run the job every x seconds and not minutes - but should not use on live server
+   * @returns
    */
-  initiateNewPeopleCronJob(intervalTime: number) {
+  initiateNewPeopleCronJob(intervalTime: number, intervalDebug = 1) {
     console.log(`%cCron Job Execution Set To Start Every: ${intervalTime} Minutes`, ConsoleColors.SystemInformation);
-    return new CronJob(`1 */${intervalTime} * * * *`, (async (): Promise<void> => {
+    return new CronJob(`1/${intervalDebug} */${intervalTime} * * * *`, (async (): Promise<void> => {
       console.log('%cCron Job Execution Started', ConsoleColors.SystemInformation);
       let newPerson: any = await this.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
       newPerson = newPerson.Body.results[0];
@@ -197,7 +204,7 @@ export class GeneralService {
       if (webSocket === undefined || webSocket.readyState == 3) {
         let fetchResponse;
         try {
-          fetchResponse = await this.fetchStatus(process.env.WEBSOCKET_URL || 'websocket-echo.com', { method: 'GET' });
+          fetchResponse = await this.fetchStatus(process.env.WEBSOCKET_URL || 'https://websocket-echo.com', { method: 'GET' });
           const socketMessage = await fetchResponse.Body.Text;
           if (socketMessage == 'Upgrade Required') {
             webSocket = this.initiateWebSocket();

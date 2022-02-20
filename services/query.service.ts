@@ -105,11 +105,9 @@ export class QueryAPIService {
             await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, lucky_number INTEGER, join_date DATE)`);
             break;
           case 'users':
+          default:
             await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, luck BOOLEAN, join_date DATE)`);
             break;
-          default:
-            throw new Error('NotImplementedException');
-          // break;
         }
       }
       for (let i = 0; i < data.length; i++) {
@@ -122,11 +120,9 @@ export class QueryAPIService {
             await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (${person.id}, ${person.luckyNumber}, '${person.joinDate}')`);
             break;
           case 'users':
+          default:
             await sqLiteExec(this.db, `INSERT INTO ${tableName} VALUES (${person.id}, ${person.luck}, '${person.joinDate}')`);
             break;
-          default:
-            throw new Error('NotImplementedException');
-          // break;
         }
       }
     } else {
@@ -157,11 +153,9 @@ export class QueryAPIService {
               await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luckyNumber}, '${person.joinDate}')`);
               break;
             case 'users':
+            default:
               await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luck}, '${person.joinDate}')`);
               break;
-            default:
-              throw new Error('NotImplementedException');
-            // break;
           }
         }
       }
@@ -189,11 +183,9 @@ export class QueryAPIService {
             await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, lucky_number INTEGER, join_date DATE)`);
             break;
           case 'users':
+          default:
             await sqLiteExec(this.db, `CREATE TABLE ${tableName} (id INTEGER PRIMARY KEY, luck BOOLEAN, join_date DATE)`);
             break;
-          default:
-            throw new Error('NotImplementedException');
-          // break;
         }
       }
     }

@@ -77,16 +77,14 @@ export class PeopleAPIService {
   };
 
   createNewPerson = async (): Promise<any[]> => {
-    const queryAPIService = new QueryAPIService();
-    await queryAPIService.initiateSQLite();
     let person: any = [];
     try {
+      const queryAPIService = new QueryAPIService();
+      await queryAPIService.initiateSQLite();
+
       const generalService = new GeneralService();
       let newPerson: any = await generalService.fetchStatus(process.env.USER_API || 'https://randomuser.me/api', { method: 'GET' });
       newPerson = newPerson.Body.results[0];
-
-      const queryAPIService = new QueryAPIService();
-      await queryAPIService.initiateSQLite();
 
       const newPersonUUID = uuid();
       await queryAPIService.addOrCreateDBTableFromData([{
@@ -214,8 +212,8 @@ export class PeopleAPIService {
       );
     } catch (error) {
       if (error instanceof Error) {
-        console.error(`%cPerson Creation Error: ${error.name}, ${error.message}`, ConsoleColors.Error);
-        people = 'Person Creation Error' as any;
+        console.error(`%cPerson Removal Error: ${error.name}, ${error.message}`, ConsoleColors.Error);
+        people = 'Person Removal Error' as any;
       }
     }
     return people;
