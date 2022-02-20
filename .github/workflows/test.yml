@@ -1,0 +1,36 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Use Checkout v2
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "npm"
+
+      # NPM Continuous Integration Install
+      - name: NPM Continuous Integration
+        run: npm ci
+
+      # Linter Tests
+      - name: Linter Tests
+        run: npm run lint-test
+
+      # Jest Cover Tests
+      - name: Jest Cover Tests
+        run: npm test
