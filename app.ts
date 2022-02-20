@@ -39,5 +39,8 @@ export default server;
 // Use for handlers
 export { job };
 
+// Use for Unit Tests
+export { app };
+
 // Add handlers
 require('./handlers.ts');
