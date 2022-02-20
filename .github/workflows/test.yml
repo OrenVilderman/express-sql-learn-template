@@ -32,4 +32,6 @@ jobs:
 
       # Jest Cover Tests
       - name: Jest Cover Tests
-        run: CI= npx jest __tests__/~app.test.ts
+        run: npx jest __tests__/~app.test.ts
+        continue-on-error: true
+
