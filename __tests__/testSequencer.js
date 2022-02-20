@@ -7,7 +7,7 @@ class CustomSequencer extends Sequencer {
     copyTests.forEach(function(test,i){
       if(test.path.includes('~')){
         copyTests.splice(i, 1);
-        copyTests.unshift(test);
+        copyTests.push(test);
       }
     });
     return copyTests;
