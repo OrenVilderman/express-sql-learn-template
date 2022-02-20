@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns testSequencer",
+    "ci-test": "jest --testPathIgnorePatterns testSequencer ~app services",
     "start": "ts-node app.ts",
     "start-dev": "nodemon --exec npx ts-node app.ts",
     "lint-test": "npx eslint --ext .ts .",
