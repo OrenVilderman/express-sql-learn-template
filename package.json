@@ -1,6 +1,6 @@
 {
   "name": "express-sql-learn-template",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "",
   "main": "app.ts",
   "scripts": {
