@@ -1,11 +1,10 @@
 {
   "name": "express-sql-learn-template",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "test": "jest --testPathIgnorePatterns testSequencer",
-    "ci-test": "jest --testPathIgnorePatterns testSequencer ~app services",
+    "test": "jest",
     "start": "ts-node app.ts",
     "start-dev": "nodemon --exec npx ts-node app.ts",
     "lint-test": "npx eslint --ext .ts .",

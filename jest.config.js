@@ -5,6 +5,9 @@ module.exports = {
   collectCoverage: true,
   maxWorkers: 1,
   testSequencer: "./__tests__/testSequencer.js",
+  testPathIgnorePatterns: [
+    "testSequencer.js",
+  ],
   coveragePathIgnorePatterns: [
     "handlers.ts",
   ],
