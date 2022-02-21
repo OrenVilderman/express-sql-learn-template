@@ -18,6 +18,13 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('Clean', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+
     it('Drop All Tables', async () => {
       const queryAPIService = new QueryAPIService();
       await queryAPIService.initiateSQLite();
@@ -38,6 +45,13 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('People', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+
     it('Get Empty Table', async () => {
       const peopleEmptyTable = await request(app).get('/api/V0.1/query/all');
       expect(peopleEmptyTable.status).to.equal(404);
@@ -176,6 +190,13 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('Winners', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+
     it('Get Empty Table', async () => {
       const winnersEmptyTable = await request(app).get('/api/V0.1/winner/all');
       expect(winnersEmptyTable.status).to.equal(404);
@@ -262,6 +283,13 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('Users', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+    
     it('Get Empty Table', async () => {
       const usersEmptyTable = await request(app).get('/api/V0.1/user/all');
       expect(usersEmptyTable.status).to.equal(404);

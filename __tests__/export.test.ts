@@ -18,6 +18,13 @@ describe('Export Tests Suite', () => {
   });
 
   describe('Add Data To Tables', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+
     it('People, Winners and Users', async () => {
       const queryAPIService = new QueryAPIService();
       await queryAPIService.initiateSQLite();
@@ -44,6 +51,13 @@ describe('Export Tests Suite', () => {
   });
 
   describe('People', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+
     it('Export People JSON', async () => {
       const peopleExportTable: any = await new Promise(async (resolve) => {
         await request(app).post('/api/V0.1/query/export').send({
@@ -110,6 +124,13 @@ describe('Export Tests Suite', () => {
   });
 
   describe('Winners', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+
     it('Export Winners CSV', async () => {
       const winnersExportTable: any = await new Promise(async (resolve) => {
         await request(app).post('/api/V0.1/winner/export').send({
@@ -168,6 +189,13 @@ describe('Export Tests Suite', () => {
   });
 
   describe('Users', () => {
+    afterAll(async () => {
+      /**
+       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+       */
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    });
+    
     it('Export Users Text With Where', async () => {
       const usersExportTable: any = await new Promise(async (resolve) => {
         await request(app).post('/api/V0.1/user/export').send({
