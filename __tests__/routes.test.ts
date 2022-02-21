@@ -55,7 +55,7 @@ describe('Routes Tests Suite', () => {
        */
       await new Promise((resolve) => setTimeout(resolve, 3000));
     });
-    
+
     it('Validate Non Existing Route', async () => {
       const userNonExistingRoute = await request(app).put('/api/V0.1/user');
       expect(userNonExistingRoute.status).to.equal(404);

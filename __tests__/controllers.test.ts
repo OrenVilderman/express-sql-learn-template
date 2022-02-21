@@ -289,7 +289,7 @@ describe('Controllers Tests Suite', () => {
        */
       await new Promise((resolve) => setTimeout(resolve, 3000));
     });
-    
+
     it('Get Empty Table', async () => {
       const usersEmptyTable = await request(app).get('/api/V0.1/user/all');
       expect(usersEmptyTable.status).to.equal(404);

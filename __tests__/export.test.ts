@@ -195,7 +195,7 @@ describe('Export Tests Suite', () => {
        */
       await new Promise((resolve) => setTimeout(resolve, 3000));
     });
-    
+
     it('Export Users Text With Where', async () => {
       const usersExportTable: any = await new Promise(async (resolve) => {
         await request(app).post('/api/V0.1/user/export').send({

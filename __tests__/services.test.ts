@@ -121,7 +121,7 @@ describe('Services Tests Suite', () => {
        */
       await new Promise((resolve) => setTimeout(resolve, 3000));
     });
-    
+
     it('Non Existing Table', async () => {
       const peopleAPIService = new PeopleAPIService();
       const nonExistingTable = await peopleAPIService.getFromDBTable('test');
