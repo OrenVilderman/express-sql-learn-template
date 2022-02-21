@@ -15,7 +15,7 @@ describe('Initiation Tests Suite', () => {
      */
     await new Promise((resolve) => setTimeout(resolve, 3000));
   });
-  
+
   it('Create People', async () => {
     const createPeopleResponse = await request(app).post('/api/V0.1/query/create');
     expect(createPeopleResponse.status).to.equal(201);
