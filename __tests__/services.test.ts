@@ -17,6 +17,7 @@ describe('Services Tests Suite', () => {
      */
     await new Promise((resolve) => setTimeout(resolve, 3000));
   });
+
   describe('Query', () => {
     it('Re-Initiate DB And Validate USE', async () => {
       const queryAPIService = new QueryAPIService();

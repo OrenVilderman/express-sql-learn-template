@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { expect } from 'chai';
-import { describe, it } from '@jest/globals';
+import { describe, it, afterAll } from '@jest/globals';
 import indexRouter from '../routes/index';
 import { GeneralService } from '../services/index';
 
@@ -10,6 +10,13 @@ app.use(express.json());
 app.use('/api/V0.1', indexRouter);
 
 describe('Fetch Tests Suite', () => {
+  afterAll(async () => {
+    /**
+     * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+     */
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  });
+
   it('Validate Get Person Picture', async () => {
     const peopleGetBefore = await request(app).post('/api/V0.1/query/create');
     expect(peopleGetBefore.status).to.equal(201);

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { expect } from 'chai';
-import { describe, it } from '@jest/globals';
+import { describe, it, afterAll } from '@jest/globals';
 import indexRouter from '../routes/index';
 
 const app = express();
@@ -9,6 +9,13 @@ app.use(express.json());
 app.use('/api/V0.1', indexRouter);
 
 describe('Routes Tests Suite', () => {
+  afterAll(async () => {
+    /**
+     * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+     */
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  });
+
   describe('People', () => {
     it('Validate Non Existing Route', async () => {
       const peopleNonExistingRoute = await request(app).put('/api/V0.1/query');

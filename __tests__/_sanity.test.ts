@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { expect } from 'chai';
-import { describe, it } from '@jest/globals';
+import { describe, it, afterAll } from '@jest/globals';
 import indexRouter from '../routes/index';
 
 const app = express();
@@ -10,6 +10,13 @@ app.use(express.static(`${process.cwd()}/public`));
 app.use('/api/V0.1', indexRouter);
 
 describe('Sanity Tests Suite', () => {
+  afterAll(async () => {
+    /**
+     * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
+     */
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  });
+
   it('Public Index', async () => {
     const publicIndex = await request(app).get('/index.html');
     expect(publicIndex.status).to.equal(200);
