@@ -89,6 +89,29 @@ describe('Controllers Tests Suite', () => {
       expect(peopleGetAfter.type).to.equal('text/html');
     });
 
+    it('Patch With No Data', async () => {
+      const peopleCreate = await request(app).post('/api/V0.1/query/create');
+      expect(peopleCreate.status).to.equal(201);
+      expect(peopleCreate.body[0]).to.be.an('object').that.is.not.null;
+      expect(peopleCreate.type).to.equal('application/json');
+
+      const peopleRead = await request(app).get(`/api/V0.1/query/${peopleCreate.body[0].uuid}`);
+      expect(peopleRead.status).to.equal(200);
+      expect(peopleRead.body[0]).to.be.an('object').that.is.not.null;
+      expect(peopleRead.type).to.equal('application/json');
+      expect(peopleCreate.body[0]).to.deep.equal(peopleRead.body[0]);
+
+      const peopleUpdate = await request(app).patch(`/api/V0.1/query/${peopleCreate.body[0].uuid}`);
+      expect(peopleUpdate.body[0]).to.have.property('id').equal(peopleRead.body[0].id);
+      expect(peopleUpdate.body[0]).to.have.property('dob').equal(peopleRead.body[0].dob);
+      expect(peopleUpdate.body[0]).to.have.property('email').equal(peopleRead.body[0].email);
+      expect(peopleUpdate.body[0]).to.have.property('gender').equal(peopleRead.body[0].gender);
+      expect(peopleUpdate.body[0]).to.have.property('name').equal(peopleRead.body[0].name);
+      expect(peopleUpdate.body[0]).to.have.property('picture').equal(peopleRead.body[0].picture);
+      expect(peopleUpdate.body[0]).to.have.property('role').to.equal('null');
+      expect(peopleUpdate.body[0]).to.have.property('uuid').equal(peopleRead.body[0].uuid);
+    });
+
     it('Create From Wrong Site (Negative)', async () => {
       process.env.USER_API = 'dummy.not.a.site.comb';
       const createFromWrongSite = await request(app).post('/api/V0.1/query/create');

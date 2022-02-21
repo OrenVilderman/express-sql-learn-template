@@ -65,7 +65,7 @@ export class GeneralService {
     let parsed: any = {};
     let errorMessage: any = {};
     return fetch(url, {
-      method: `${requestInit?.method ? requestInit?.method : 'GET'}`,
+      method: `${requestInit?.method ? requestInit.method : 'GET'}`,
       body: typeof requestInit?.body === 'string' ? requestInit.body : JSON.stringify(requestInit?.body),
       headers: {
         ...requestInit?.headers,
@@ -77,12 +77,12 @@ export class GeneralService {
         const end = performance.now();
         const isSucsess = !!(response.status > 199 && response.status < 400);
         console[isSucsess ? 'log' : 'error'](
-          `%cFetch ${isSucsess ? '' : 'Error '}${requestInit?.method ? requestInit?.method : 'GET'}: ${url
+          `%cFetch ${isSucsess ? '' : 'Error '}${requestInit?.method ? requestInit.method : 'GET'}: ${url
           } took ${(end - start).toFixed(2)} milliseconds`,
           `${isSucsess ? ConsoleColors.FetchStatus : ConsoleColors.Information}`,
         );
         try {
-          if (response.headers.get('content-type')?.startsWith('image')) {
+          if (response.headers.get('content-type').startsWith('image')) {
             responseStr = await response.buffer().then((r: any) => r.toString('base64'));
             parsed = {
               Type: 'image/base64',

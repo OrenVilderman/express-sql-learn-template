@@ -138,7 +138,7 @@ PRs are only possible from a separate branch.
 Before submitting a PR please validate lint, unit tests, test cover and version update:
 - You should fix linting issues by running `npm run fix-lint` - Make sure to fix every error and warning.
 - You should run unit tests by running `npm test` - Make sure that all the tests pass.
-- The test coverage should get to **100%**, now: `98.66% Statements 739/749 | 90.6% Branches 270/289 | 99.14% Functions 116/117 | 98.68% Lines 600/608` - Make sure to add tests if needed.
+- The test coverage should get to **100%**, now: `99.73% Statements 747/749 | 97.55% Branches 279/286 | 100% Functions 117/117 | 99.67% Lines 606/608` - Make sure to add tests if needed.
 - **Always** increment* the version, according to the specifications below.
 - Adding a unit test that uncover a bug is very welcome - I will create a fix for the bug that will allow you to pull and merge your unit test ASAP.
 

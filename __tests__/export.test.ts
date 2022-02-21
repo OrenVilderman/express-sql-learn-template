@@ -40,7 +40,7 @@ describe('Export Tests Suite', () => {
     it('Export People JSON', async () => {
       const peopleExportTable: any = await new Promise(async (resolve) => {
         await request(app).post('/api/V0.1/query/export').send({
-          type: undefined,
+          type: 'json',
           where: undefined,
         })
           .buffer()
@@ -61,7 +61,7 @@ describe('Export Tests Suite', () => {
         headersObj[`${peopleExportTable.rawHeaders[i]}`] = peopleExportTable.rawHeaders[i + 1];
       }
       expect(peopleExportTable.statusCode).to.equal(200);
-      expect(headersObj['Content-Type']).to.equal('application/octet-stream');
+      expect(headersObj['Content-Type']).to.equal('application/json; charset=UTF-8');
       const dataFromPeople = JSON.parse(peopleExportTable.data);
       expect(dataFromPeople[0]).to.have.property('id').a('number');
       expect(dataFromPeople[0]).to.have.property('dob').a('string');
@@ -76,7 +76,7 @@ describe('Export Tests Suite', () => {
     it('Export People JSON With Where (Negative)', async () => {
       const peopleExportTable: any = await new Promise(async (resolve) => {
         await request(app).post('/api/V0.1/query/export').send({
-          type: 'json',
+          type: undefined,
           where: 'id=0',
         })
           .buffer()

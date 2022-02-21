@@ -9,7 +9,7 @@ describe('Sanity Tests Suite', () => {
     /**
      * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
      */
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
   });
 
   it('Public Index', async () => {
