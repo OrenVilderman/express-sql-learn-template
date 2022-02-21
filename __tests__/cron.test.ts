@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { jest, describe, it } from '@jest/globals';
+import {
+  jest, describe, it,
+} from '@jest/globals';
 import { GeneralService } from '../services';
 import { webSocket } from '../services/general.service';
 
