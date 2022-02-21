@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { expect } from 'chai';
-import { describe, it, afterEach } from '@jest/globals';
+import { describe, it } from '@jest/globals';
 import indexRouter from '../routes/index';
 
 const app = express();
@@ -9,13 +9,6 @@ app.use(express.json());
 app.use('/api/V0.1', indexRouter);
 
 describe('Initiation Tests Suite', () => {
-  afterEach(async () => {
-    /**
-     * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-     */
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-  });
-
   it('Create People', async () => {
     const createPeopleResponse = await request(app).post('/api/V0.1/query/create');
     expect(createPeopleResponse.status).to.equal(201);

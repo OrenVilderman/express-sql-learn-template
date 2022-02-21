@@ -15,17 +15,10 @@ describe('Services Tests Suite', () => {
     /**
      * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
      */
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
   });
 
   describe('Query', () => {
-    afterEach(async () => {
-      /**
-       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-       */
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    });
-
     it('Re-Initiate DB And Validate USE', async () => {
       const queryAPIService = new QueryAPIService();
       await queryAPIService.initiateSQLite();
@@ -115,13 +108,6 @@ describe('Services Tests Suite', () => {
   });
 
   describe('People', () => {
-    afterEach(async () => {
-      /**
-       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-       */
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    });
-
     it('Non Existing Table', async () => {
       const peopleAPIService = new PeopleAPIService();
       const nonExistingTable = await peopleAPIService.getFromDBTable('test');

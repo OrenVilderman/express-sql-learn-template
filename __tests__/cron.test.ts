@@ -1,18 +1,11 @@
 import { expect } from 'chai';
 import {
-  jest, describe, it, afterEach,
+  jest, describe, it,
 } from '@jest/globals';
 import { GeneralService } from '../services';
 import { webSocket } from '../services/general.service';
 
 describe('Cron Tests Suite', () => {
-  afterEach(async () => {
-    /**
-     * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-     */
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-  });
-
   jest.setTimeout(1000 * 60 * 3);
   it('Validate Web Socket Trigger After Cron Activation', async () => {
     const generalService = new GeneralService();

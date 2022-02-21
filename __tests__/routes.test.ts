@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { expect } from 'chai';
-import { describe, it, afterEach } from '@jest/globals';
+import { describe, it } from '@jest/globals';
 import indexRouter from '../routes/index';
 
 const app = express();
@@ -9,21 +9,7 @@ app.use(express.json());
 app.use('/api/V0.1', indexRouter);
 
 describe('Routes Tests Suite', () => {
-  afterEach(async () => {
-    /**
-     * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-     */
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-  });
-
   describe('People', () => {
-    afterEach(async () => {
-      /**
-       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-       */
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    });
-
     it('Validate Non Existing Route', async () => {
       const peopleNonExistingRoute = await request(app).put('/api/V0.1/query');
       expect(peopleNonExistingRoute.status).to.equal(404);
@@ -33,13 +19,6 @@ describe('Routes Tests Suite', () => {
   });
 
   describe('Winners', () => {
-    afterEach(async () => {
-      /**
-       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-       */
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    });
-
     it('Validate Non Existing Route', async () => {
       const winnerNonExistingRoute = await request(app).put('/api/V0.1/winner');
       expect(winnerNonExistingRoute.status).to.equal(404);
@@ -49,13 +28,6 @@ describe('Routes Tests Suite', () => {
   });
 
   describe('Users', () => {
-    afterEach(async () => {
-      /**
-       * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
-       */
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    });
-
     it('Validate Non Existing Route', async () => {
       const userNonExistingRoute = await request(app).put('/api/V0.1/user');
       expect(userNonExistingRoute.status).to.equal(404);
