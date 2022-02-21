@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { expect } from 'chai';
-import { describe, it, afterAll } from '@jest/globals';
+import { describe, it, afterEach } from '@jest/globals';
 import indexRouter from '../routes/index';
 import { QueryAPIService } from '../services';
 
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use('/api/V0.1', indexRouter);
 
 describe('Controllers Tests Suite', () => {
-  afterAll(async () => {
+  afterEach(async () => {
     /**
      * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
      */
@@ -18,7 +18,7 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('Clean', () => {
-    afterAll(async () => {
+    afterEach(async () => {
       /**
        * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
        */
@@ -45,7 +45,7 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('People', () => {
-    afterAll(async () => {
+    afterEach(async () => {
       /**
        * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
        */
@@ -190,7 +190,7 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('Winners', () => {
-    afterAll(async () => {
+    afterEach(async () => {
       /**
        * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
        */
@@ -283,7 +283,7 @@ describe('Controllers Tests Suite', () => {
   });
 
   describe('Users', () => {
-    afterAll(async () => {
+    afterEach(async () => {
       /**
        * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
        */

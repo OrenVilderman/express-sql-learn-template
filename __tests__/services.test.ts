@@ -1,7 +1,7 @@
 import express from 'express';
 import { expect } from 'chai';
 import {
-  describe, it, afterAll,
+  describe, it, afterEach,
 } from '@jest/globals';
 import indexRouter from '../routes/index';
 import { PeopleAPIService, QueryAPIService } from '../services/index';
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/api/V0.1', indexRouter);
 
 describe('Services Tests Suite', () => {
-  afterAll(async () => {
+  afterEach(async () => {
     /**
      * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
      */
@@ -19,7 +19,7 @@ describe('Services Tests Suite', () => {
   });
 
   describe('Query', () => {
-    afterAll(async () => {
+    afterEach(async () => {
       /**
        * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
        */
@@ -115,7 +115,7 @@ describe('Services Tests Suite', () => {
   });
 
   describe('People', () => {
-    afterAll(async () => {
+    afterEach(async () => {
       /**
        * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
        */

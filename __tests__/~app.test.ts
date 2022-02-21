@@ -1,10 +1,10 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import { describe, it, afterAll } from '@jest/globals';
+import { describe, it, afterEach } from '@jest/globals';
 import server, { app } from '../app';
 
 describe('Sanity Tests Suite', () => {
-  afterAll(async () => {
+  afterEach(async () => {
     server.close();
     /**
      * Allow logs after tests are done to finish with exit code 0 on GitHub Actions

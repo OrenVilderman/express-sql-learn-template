@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { expect } from 'chai';
-import { describe, it, afterAll } from '@jest/globals';
+import { describe, it, afterEach } from '@jest/globals';
 import indexRouter from '../routes/index';
 
 const app = express();
@@ -10,7 +10,7 @@ app.use(express.static(`${process.cwd()}/public`));
 app.use('/api/V0.1', indexRouter);
 
 describe('Sanity Tests Suite', () => {
-  afterAll(async () => {
+  afterEach(async () => {
     /**
      * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
      */

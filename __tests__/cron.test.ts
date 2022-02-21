@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import {
-  jest, describe, it, afterAll,
+  jest, describe, it, afterEach,
 } from '@jest/globals';
 import { GeneralService } from '../services';
 import { webSocket } from '../services/general.service';
 
 describe('Cron Tests Suite', () => {
-  afterAll(async () => {
+  afterEach(async () => {
     /**
      * Allow logs after tests are done to finish with exit code 0 on GitHub Actions
      */
