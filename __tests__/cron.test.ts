@@ -68,4 +68,40 @@ describe('Cron Tests Suite', () => {
     job.stop();
     expect(cronJobExecutionTestResult).to.equal('Confirm Interval Trigger');
   });
+
+  it('Close Web Socket Connection', async () => {
+    process.env.WEBSOCKET_URL = 'dummy.not.a.site.comb';
+    const generalService = new GeneralService();
+    const job = generalService.initiateNewPeopleCronJob(1, 20);
+    job.start();
+    let isEcoTrigger = false;
+    let counter = 0;
+    const setIntervalEvery = 4000;
+    const cronJobExecutionTestResult = await new Promise((resolve) => {
+      const waitForCronInterval: any = setInterval(() => {
+        if (isEcoTrigger) {
+          clearInterval(waitForCronInterval);
+          return resolve('Confirm Interval Trigger');
+        }
+        counter++;
+        if (counter === 30) {
+          clearInterval(waitForCronInterval);
+          return resolve(`Error: After ${(counter * setIntervalEvery) / 1000} seconds, Web Socket Did Not Trigger`);
+        }
+        if (counter == 7) {
+          delete process.env.WEBSOCKET_URL;
+        }
+        if (counter == 14) {
+          webSocket.on('message', (data: string) => {
+            if (data == 'New Person Added To DB By Cron Job Execution') {
+              isEcoTrigger = true;
+            }
+            webSocket.close();
+          });
+        }
+      }, setIntervalEvery);
+    });
+    job.stop();
+    expect(cronJobExecutionTestResult).to.equal('Confirm Interval Trigger');
+  });
 });

@@ -28,6 +28,25 @@ describe('DB Tests Suite', () => {
     expect(apiDeletePersonNegative.type).to.equal('text/html');
   });
 
+  it('Validate Drop User And Insert Without Table', async () => {
+    const queryAPIService = new QueryAPIService();
+    await queryAPIService.initiateSQLite();
+    await queryAPIService.dropTableByName('users');
+    await queryAPIService.insertOrReplaceRow([{
+      id: null as any,
+      joinDate: new Date(Date.now()).toISOString() as any,
+      luck: false,
+    }]);
+    const getNewUser = await request(app).get('/api/V0.1/user/all');
+    expect(getNewUser.body[0]).to.have.property('id').equal(1);
+    expect(getNewUser.body[0]).to.have.property('join_date').a('string');
+    expect(getNewUser.body[0]).to.have.property('luck').equal(0);
+    await queryAPIService.dropTableByName('users');
+    const getEmptyUser = await request(app).get('/api/V0.1/user/all');
+    expect(getEmptyUser.status).to.equal(404);
+    expect(getEmptyUser.text).to.equal('Users table is empty!');
+  });
+
   it('Validate Creat Two Users And Remove One', async () => {
     await request(app).post('/api/V0.1/user/create');
     const apiUsersBefore = await request(app).get('/api/V0.1/user/all');

@@ -49,4 +49,12 @@ describe('Fetch Tests Suite', () => {
     expect(fetchError.Body.Type).to.equal('system');
     expect(fetchError.Body.Name).to.equal('FetchError');
   });
+
+  it('Validate Empty Fetch Response', async () => {
+    const generalService = new GeneralService();
+    const emptyFatch = await generalService.fetchStatus('https://www.google.com', { method: 'HEAD' });
+    expect(emptyFatch.Status).to.equal(200);
+    expect(emptyFatch.Body).to.equal('');
+    expect(emptyFatch.Error).to.deep.equal({});
+  });
 });
