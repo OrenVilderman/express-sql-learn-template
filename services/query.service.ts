@@ -142,21 +142,22 @@ export class QueryAPIService {
       tableName = 'users';
     }
     if (this.db != '') {
-      if (await this.isAsyncTableExist(tableName)) {
-        for (let i = 0; i < data.length; i++) {
-          const person: any = data[i];
-          switch (tableName) {
-            case 'people':
-              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id ? person.id : null}, '${person.name}', '${person.uuid}', '${person.dob}', '${person.email}', '${person.gender}', '${person.picture}', '${person.role}')`);
-              break;
-            case 'winners':
-              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luckyNumber}, '${person.joinDate}')`);
-              break;
-            case 'users':
-            default:
-              await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luck}, '${person.joinDate}')`);
-              break;
-          }
+      if (!await this.isAsyncTableExist(tableName)) {
+        await this.createDefultDBTablesIfMissing();
+      }
+      for (let i = 0; i < data.length; i++) {
+        const person: any = data[i];
+        switch (tableName) {
+          case 'people':
+            await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, '${person.name}', '${person.uuid}', '${person.dob}', '${person.email}', '${person.gender}', '${person.picture}', '${person.role}')`);
+            break;
+          case 'winners':
+            await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luckyNumber}, '${person.joinDate}')`);
+            break;
+          case 'users':
+          default:
+            await sqLiteExec(this.db, `INSERT or REPLACE INTO ${tableName} VALUES (${person.id}, ${person.luck}, '${person.joinDate}')`);
+            break;
         }
       }
     } else {

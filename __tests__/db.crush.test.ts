@@ -90,7 +90,7 @@ describe('DB Crush Tests Suite', () => {
     let closedDBMessage;
     try {
       closedDBMessage = await queryAPIService.insertOrReplaceRow([{
-        id: 15,
+        id: null as any,
         joinDate: new Date(Date.now()).toISOString() as any,
         luck: false,
       }]);

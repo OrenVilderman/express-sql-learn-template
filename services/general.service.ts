@@ -39,7 +39,7 @@ export interface FetchStatusResponse {
   Error: any;
 }
 
-type HttpMethod = 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
+type HttpMethod = 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
 
 export interface FetchRequestInit {
   method?: HttpMethod;
@@ -202,24 +202,19 @@ export class GeneralService {
       }]);
 
       if (webSocket === undefined || webSocket.readyState == 3) {
-        let fetchResponse;
-        try {
-          fetchResponse = await this.fetchStatus(process.env.WEBSOCKET_URL || 'https://websocket-echo.com', { method: 'GET' });
-          const socketMessage = await fetchResponse.Body.Text;
-          if (socketMessage == 'Upgrade Required') {
-            webSocket = this.initiateWebSocket();
-            /**
-             * Free the event loop to change WebSocket readyState after initiation (2 seconds is safe spot for this API from testing)
-             */
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-          }
-          if (webSocket.readyState == 1) {
-            webSocket.send('New Person Added To DB By Cron Job Execution');
-          } else {
-            console.log('%cError in connection to websocket', ConsoleColors.Error);
-          }
-        } catch (error) {
-          console.log(`%cFetch Error GET: ${process.env.WEBSOCKET || 'websocket-echo.com'}`, ConsoleColors.Error);
+        const fetchResponse = await this.fetchStatus(process.env.WEBSOCKET_URL || 'https://websocket-echo.com', { method: 'GET' });
+        const socketMessage = await fetchResponse.Body.Text;
+        if (socketMessage == 'Upgrade Required') {
+          webSocket = this.initiateWebSocket();
+          /**
+           * Free the event loop to change WebSocket readyState after initiation (2 seconds is safe spot for this API from testing)
+           */
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+        }
+        if (webSocket.readyState == 1) {
+          webSocket.send('New Person Added To DB By Cron Job Execution');
+        } else {
+          console.log('%cError in connection to websocket', ConsoleColors.Error);
         }
       } else {
         webSocket.send('New Person Added To DB By Cron Job Execution');
